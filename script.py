@@ -3,11 +3,13 @@
 
 """jmoiron.net script/commands"""
 
-# TODO: this is deprecated, but alternatives are boilerplate-heavy
-from werkzeug import script
+from flaskext.script import Manager
 from run import app, db
 
-def action_flushdb():
+script = Manager(app)
+
+@script.command
+def flushdb():
     """Flush the database."""
     db.drop_collection('blog_posts')
     db.drop_collection('stream_entries')
@@ -15,7 +17,8 @@ def action_flushdb():
     db.drop_collection('flatpages')
     db.drop_collection('tags')
 
-def action_create_indexes():
+@script.command
+def create_indexes():
     """Create indexes on the mongo collections."""
     import pymongo
     db.stream_entries.create_index('source_tag')
@@ -24,10 +27,9 @@ def action_create_indexes():
     db.blog_posts.create_index([('timestamp', pymongo.DESCENDING)])
     db.tags.create_index('slug')
 
-def action_migratedb(dumpfile=('d', '')):
-    """Run a migration from an SQL database.  If dumpfile (or arg) is passed,
-    db is loaded from an SQL dump file first.  Otherwise, it uses the existing
-    database as configured in the migration library."""
+@script.command
+def migratedb(dumpfile=None):
+    """Run a migration from an SQL database."""
     from misc import migrate
     print 'Flushing current mongo database...'
     action_flushdb()

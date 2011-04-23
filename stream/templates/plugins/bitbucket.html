@@ -1,0 +1,39 @@
+{% load blog %}{% load util %}{% filter noemptylines %}
+{% set update data.update %}
+{% set repos data.update.repository %}
+<!-- id: {{ entry.id }} -->
+{% ifequal update.event "commit" %}
+<h3 class="title">
+  <a href="http://bitbucket.org" class="icon"><img src="/media/icons/bitbucket-color.png" alt="b" /></a>
+  commit <a href="{{entry.permalink}}">#{{ update.revision }}</a>
+    to 
+  <a href="{{repos.url}}" title="{{repos.description}}">{{ repos.name }}</a>
+</h3>
+<div class="date">{{ entry.timestamp }}</div>
+<div class="content">
+  <p class="bb-description">{{ update.description|safe }}</p>
+  <table class="bb-files">
+    {% for file in update.files %}
+    <tr><td class="{{ file.type }}">
+      <a href="{{ update.repository.url}}changeset/{{update.node}}#chg-{{file.file}}">{{ file.file }}</a>
+    </td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% else %}
+{% ifequal update.event "create" %}
+<h3 class="title">
+  <a href="http://bitbucket.org" class="icon"><img src="/media/icons/bitbucket-color.png" alt="b" /></a>
+  created <a href="{{repos.url}}">{{ repos.name }}</a>
+</h3>
+<div class="date">{{ entry.timestamp }}</div>
+<div class="content">{{ repos.description }}</div>
+{% else %}
+<h3 class="title">
+  <a href="http://bitbucket.org" class="icon"><img src="/media/icons/bitbucket-color.png" alt="b" /></a>{{ entry.title }}
+</h3>
+<div class="date">{{ entry.timestamp }}</div>
+<div class="content">{{ update.description }}</div>
+{% endifequal %}
+{% endifequal %}
+{% endfilter %}

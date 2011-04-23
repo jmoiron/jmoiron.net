@@ -66,12 +66,17 @@ class OpenStruct(local):
     def update(self, d): self.__dict__.update(d)
     def clear(self): self.__dict__.clear()
 
+wrap = lambda objects: [OpenStruct(obj) for obj in objects]
+
 required = uuid4().hex
 
 class Model(object):
-    def __init__(self, **kwargs):
-        self.doc = dict(self.spec)
-        self.doc.update(kwargs)
+    def __init__(self, *args, **kwargs):
+        self.doc = OpenStruct(self.spec)
+        if args and not kwargs:
+            self.doc.update(args[0])
+        else:
+            self.doc.update(kwargs)
 
     def check_spec(self):
         if required in self.doc.values():

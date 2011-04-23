@@ -3,4 +3,7 @@
 {% block body %}
   <h1>Stream</h1>
   <p>Welcome to the stream! Check out <a href="{{ url_for('blog.index') }}">my blog</a></p>
+  {% for entry in entries %}
+    {{ entry.rendered|safe }}
+  {% endfor %}
 {% endblock %}

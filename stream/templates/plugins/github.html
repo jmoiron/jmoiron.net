@@ -1,0 +1,46 @@
+{% set update = entry.data.event %}
+{% set repos update.repository %}
+{% set icon = url_for("static", filename="stream/github-color.png") %}
+<!-- id: {{ entry.id }} -->
+{% if update.event == 'commit' %}
+<h3 class="title">
+  <a href="http://github.com" class="icon"><img src="{{ icon }}" alt="g" /></a>
+  commit <a href="{{entry.permalink}}">{{ update.id[0:8] }}</a>
+    to 
+  <a href="{{ repos.url }}" title="{{ repos.description }}">{{ repos.name }}</a>
+</h3>
+<div class="date">{{ entry.timestamp }}</div>
+<div class="content">
+  <p class="gh-description">{{ update.message|safe }}</p>
+  <ul class="gh-files">
+    {% for file in update.added %}
+      <li class="added"><a href="{{  entry.permalink }}#diff-{{forloop.counter0}}">{{ file }}</a></li>
+    {% endfor %}
+    {% set numadded update.added|length %}
+    {% for file in update.modified %}
+      <li class="modified">
+        <div class="filename">
+          <a href="{{ entry.permalink }}#diff-{{forloop.counter0|add:numadded}}">{{ file.filename }}</a>
+        </div>
+        <div class="expander"><a href="#">+</a></div>
+        {{ file.htmldiff|safe }}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% elif update.event == 'create' %}
+<h3 class="title">
+  <a href="http://github.com" class="icon"><img src="{{ icon }}" alt="g" /></a>
+  created <a href="{{ entry.permalink }}">{{ update.name }}</a>
+</h3>
+<div class="date">{{ entry.timestamp }}</div>
+<div class="content">{{ update.description }}</div>
+{% else %}
+<h3 class="title">
+  <a href="http://github.com" class="icon"><img src="{{ icon }}" alt="b" /></a>{{ entry.title }}
+</h3>
+<div class="date">{{ entry.timestamp }}</div>
+<div class="content">{{ update.description }}</div>
+{% endifequal %}
+{% endifequal %}
+{% endfilter %}
