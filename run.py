@@ -7,9 +7,12 @@ import os
 import re
 
 from flask import Flask, g
-
 from utils import memoize
 from pymongo import Connection
+
+# modules from which to build our application
+from blog.views import blog
+from stream.views import stream
 
 @memoize
 def connect(uri):
@@ -27,10 +30,12 @@ def connect(uri):
         raise
     return connection[db]
 
-app = Flask('jmoiron.net')
+app = Flask(__name__)
 
 runlevel = os.environ.get('JMOIRON_RUNLEVEL', 'Development')
 app.config.from_object('config.%sConfig' % runlevel)
+app.register_module(blog, url_prefix='/blog')
+app.register_module(stream)
 
 @app.before_request
 def before_request():

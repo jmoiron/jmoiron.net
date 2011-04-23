@@ -2,8 +2,10 @@
 <html>
   <head>
     <title>{% if title %}{{ title }}{% else %}jmoiron.net{% endif %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% block head %}{% endblock %}
   </head>
   <body>
-
+    {% block body %}{% endblock %}
   </body>
 </html>
