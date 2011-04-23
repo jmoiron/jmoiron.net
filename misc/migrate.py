@@ -3,6 +3,8 @@
 
 """migration helpers."""
 
+import datetime
+
 from fabric.api import local, hide
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
@@ -17,8 +19,12 @@ def loaddb(filename, db='jmoiron_net'):
         local('psql -d postgres < %s' % (filename))
 
 def typemap(val):
+    """Provide type mapping between values that psycopg2 return to us
+    and values we might be able to store in mongodb easily."""
     if isinstance(val, (basestring, int, long, float, bool)):
         return val
+    if isinstance(val, datetime.datetime):
+        pass
     raise Exception("What is this?: %r" % val)
 
 def read_table(table):
