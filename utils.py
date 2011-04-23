@@ -6,8 +6,10 @@
 a lot of this is lifted from iris.
 """
 
+from uuid import uuid4
 from threading import local
 from functools import wraps
+from flask import g
 
 def memoize(function):
     """Memoizing function.  Potentially not thread-safe, since it will return
@@ -64,3 +66,39 @@ class OpenStruct(local):
     def update(self, d): self.__dict__.update(d)
     def clear(self): self.__dict__.clear()
 
+required = uuid4().hex
+
+class Model(object):
+    def __init__(self, **kwargs):
+        self.doc = dict(self.spec)
+        self.doc.update(kwargs)
+
+    def check_spec(self):
+        if required in self.doc.values():
+            missing = [k for k,v in self.doc.items() if v is required]
+            raise Exception("Required fields missing: %s" % (missing))
+
+    def pre_save(self):
+        return
+
+    def save(self):
+        self.pre_save()
+        self.check_spec()
+        self.objects.save(self.doc)
+
+class Manager(object):
+    def __init__(self, cname):
+        self.cname = cname
+
+    def _get_collection(self):
+        return g.db[self.cname]
+    collection = property(_get_collection)
+
+    def find(self, *args, **kwargs):
+        return self.collection.find(*args, **kwargs)
+
+    def insert(self, *args, **kwargs):
+        return self.collection.insert(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        return self.collection.save(*args, **kwargs)
