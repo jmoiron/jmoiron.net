@@ -6,7 +6,7 @@
 import os
 import re
 
-from flask import Flask
+from flask import Flask, g
 
 from utils import memoize
 from pymongo import Connection
@@ -19,7 +19,12 @@ def connect(uri):
     if not match:
         raise Exception('DB Configuration string "%s" is invalid.' % uri)
     host, port, db = match.groups()
-    connection = Connection(host, port)
+    port = int(port)
+    try:
+        connection = Connection(host, port)
+    except:
+        print 'Connection to "%s" failed.' % uri
+        raise
     return connection[db]
 
 app = Flask('jmoiron.net')
@@ -27,6 +32,16 @@ app = Flask('jmoiron.net')
 runlevel = os.environ.get('JMOIRON_RUNLEVEL', 'Development')
 app.config.from_object('config.%sConfig' % runlevel)
 
+@app.before_request
+def before_request():
+    g.db = connect(app.config['DATABASE_URI'])
+
+@app.after_request
+def after_request(response):
+    return response
+
 if __name__ == '__main__':
     app.run()
+else:
+    db = connect(app.config['DATABASE_URI'])
 
