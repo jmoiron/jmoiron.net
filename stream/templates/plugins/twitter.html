@@ -1,9 +1,9 @@
 {% set tweet = entry.data.tweet %}
 {% set user = tweet.user %}
 <h3 class="title">
-  <a href="http://twitter.com" class="icon"><img src="{{ url_for('static', filename='icons/twitter-color.png') }}" alt="t" /></a>
+  <a href="http://twitter.com" class="icon"><img src="{{ url_for('stream.static', filename='twitter-color.png') }}" alt="t" /></a>
   {{ tweet.html_text|safe }}
 </h3>
 <div class="content">
-  <a href="{{entry.permalink}}">{{ entry.timestamp }}</a> via {{tweet.source|safe}}
+  <a href="{{ entry.permalink }}">{{ entry.timestamp }}</a> via {{tweet.source|safe}}
 </div>

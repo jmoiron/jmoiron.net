@@ -4,6 +4,7 @@ ctx = app.test_request_context('/')
 ctx.push()
 before_request()
 # import stuff i want
+import pymongo
 from utils import *
 from stream.models import *
 from blog.models import *

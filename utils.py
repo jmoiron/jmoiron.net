@@ -89,7 +89,7 @@ class Model(object):
     def save(self):
         self.pre_save()
         self.check_spec()
-        self.objects.save(self.doc)
+        self.objects.save(dict(self.doc))
 
 class Manager(object):
     def __init__(self, cname):

@@ -35,7 +35,7 @@ app = Flask(__name__)
 runlevel = os.environ.get('JMOIRON_RUNLEVEL', 'Development')
 app.config.from_object('config.%sConfig' % runlevel)
 app.register_module(blog, url_prefix='/blog')
-app.register_module(stream)
+app.register_module(stream, url_prefix='/stream')
 
 @app.before_request
 def before_request():
@@ -44,6 +44,15 @@ def before_request():
 @app.after_request
 def after_request(response):
     return response
+
+# use the stream index as the '/' url
+
+@app.route('/')
+def index():
+    from stream.views import index
+    return index()
+
+del app.view_functions['stream.index']
 
 if __name__ == '__main__':
     app.run()
