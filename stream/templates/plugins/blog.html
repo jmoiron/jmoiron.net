@@ -1,11 +1,11 @@
-
+{% set icon = url_for('stream.static', filename="blog-color.png") %}
 <h3 class="title">
-  <a href="http://jmoiron.net/blog/" class="icon"><img src="/media/icons/blog-color.png" alt="l" /></a>
+  <a href="http://jmoiron.net/blog/" class="icon"><img src="{{ icon }}" alt="l" /></a>
   <a href="{{entry.permalink}}">{{ entry.title }}</a>
 </h3>
 <div class="date">{{ entry.timestamp }}</div>
 <div class="content">
-  {{ data.summary|safe }}
+  {{ entry.data.summary|safe }}
   <div style="float: right; margin-bottom: .5em;"><a href="{{entry.permalink}}">read more ...</a></div>
   <div style="clear: both;"> </div>
 </div>

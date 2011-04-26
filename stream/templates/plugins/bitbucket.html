@@ -1,10 +1,10 @@
-{% load blog %}{% load util %}{% filter noemptylines %}
-{% set update data.update %}
-{% set repos data.update.repository %}
+{% set update = entry.data.update %}
+{% set repos = update.repository %}
+{% set icon = url_for('stream.static', filename='bitbucket-color.png') %}
 <!-- id: {{ entry.id }} -->
-{% ifequal update.event "commit" %}
+{% if update.event == "commit" %}
 <h3 class="title">
-  <a href="http://bitbucket.org" class="icon"><img src="/media/icons/bitbucket-color.png" alt="b" /></a>
+  <a href="http://bitbucket.org" class="icon"><img src="{{ icon }}" alt="b" /></a>
   commit <a href="{{entry.permalink}}">#{{ update.revision }}</a>
     to 
   <a href="{{repos.url}}" title="{{repos.description}}">{{ repos.name }}</a>
@@ -20,20 +20,17 @@
     {% endfor %}
   </table>
 </div>
+{% elif update.event == "create" %}
+  <h3 class="title">
+    <a href="http://bitbucket.org" class="icon"><img src="{{ icon }}" alt="b" /></a>
+    created <a href="{{repos.url}}">{{ repos.name }}</a>
+  </h3>
+  <div class="date">{{ entry.timestamp }}</div>
+  <div class="content">{{ repos.description }}</div>
 {% else %}
-{% ifequal update.event "create" %}
-<h3 class="title">
-  <a href="http://bitbucket.org" class="icon"><img src="/media/icons/bitbucket-color.png" alt="b" /></a>
-  created <a href="{{repos.url}}">{{ repos.name }}</a>
-</h3>
-<div class="date">{{ entry.timestamp }}</div>
-<div class="content">{{ repos.description }}</div>
-{% else %}
-<h3 class="title">
-  <a href="http://bitbucket.org" class="icon"><img src="/media/icons/bitbucket-color.png" alt="b" /></a>{{ entry.title }}
-</h3>
-<div class="date">{{ entry.timestamp }}</div>
-<div class="content">{{ update.description }}</div>
-{% endifequal %}
-{% endifequal %}
-{% endfilter %}
+  <h3 class="title">
+    <a href="http://bitbucket.org" class="icon"><img src="{{ icon }}" alt="b" /></a> {{ entry.title }}
+  </h3>
+  <div class="date">{{ entry.timestamp }}</div>
+  <div class="content">{{ update.description }}</div>
+{% endif %}

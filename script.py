@@ -11,11 +11,11 @@ script = Manager(app)
 @script.command
 def flushdb():
     """Flush the database."""
-    db.drop_collection('blog_posts')
-    db.drop_collection('stream_entries')
-    db.drop_collection('stream_plugins')
-    db.drop_collection('flatpages')
-    db.drop_collection('tags')
+    db.drop_collection('blog_post')
+    db.drop_collection('stream_entry')
+    db.drop_collection('stream_plugin')
+    db.drop_collection('flatpage')
+    db.drop_collection('tag')
 
 @script.command
 def create_indexes():
