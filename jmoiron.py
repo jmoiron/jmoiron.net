@@ -51,8 +51,6 @@ def pretty_datetime(dt):
             .replace('AM', 'a.m.')\
             .replace('PM', 'p.m.')
 
-if __name__ == '__main__':
-    app.run()
-else:
+if __name__ != '__main__':
     db = current()[dbname]
 

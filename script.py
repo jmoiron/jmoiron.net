@@ -4,7 +4,7 @@
 """jmoiron.net script/commands"""
 
 from flaskext.script import Manager
-from run import app, db
+from jmoiron import app, db
 
 script = Manager(app)
 
