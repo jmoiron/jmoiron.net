@@ -9,7 +9,7 @@
     to 
   <a href="{{ repos.url }}" title="{{ repos.description }}">{{ repos.name }}</a>
 </h3>
-<div class="date">{{ entry.timestamp }}</div>
+<div class="date">{{ entry.timestamp|pdt }}</div>
 <div class="content">
   <p class="gh-description">{{ update.message|safe }}</p>
   <ul class="gh-files">

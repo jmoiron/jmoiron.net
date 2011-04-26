@@ -5,5 +5,5 @@
   {{ tweet.html_text|safe }}
 </h3>
 <div class="content">
-  <a href="{{ entry.permalink }}">{{ entry.timestamp }}</a> via {{tweet.source|safe}}
+  <a href="{{ entry.permalink }}">{{ entry.timestamp|pdt }}</a> via {{tweet.source|safe}}
 </div>

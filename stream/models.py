@@ -7,6 +7,7 @@ from flask import g, render_template
 from utils import Model, Manager, required
 
 class Entry(Model):
+    objects = Manager('stream_entries')
     spec = {
         'source_tag' : required,
         'title' : None,
@@ -14,7 +15,6 @@ class Entry(Model):
         'data': None,
         'id': 0,
     }
-    objects = Manager('stream_entries')
 
     def pre_save(self):
         self.doc.id = self.objects.find().count() + 1
