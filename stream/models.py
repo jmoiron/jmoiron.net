@@ -17,12 +17,12 @@ class Entry(Model):
     }
 
     def pre_save(self):
-        self.doc.id = self.objects.find().count() + 1
-        self.doc.rendered = self.render()
+        self.id = self.find().count() + 1
+        self.rendered = self._render()
 
-    def render(self):
-        template = "stream/plugins/%s.html" % (self.doc.source_tag)
-        return  render_template(template, entry=self.doc)
+    def _render(self):
+        template = "stream/plugins/%s.html" % (self.source_tag)
+        return  render_template(template, entry=self)
 
 
 

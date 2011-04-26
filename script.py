@@ -48,6 +48,17 @@ def migratedb(dumpfile=None):
     print 'Creating indexes...'
     create_indexes()
 
+@script.command
+def rerender_entries(source_tag=None):
+    """Rerender stream entries."""
+    from stream.models import Entry
+    if source_tag:
+        entries = Entry.find({'source_tag': source_tag})
+    else:
+        entries = Entry.find()
+    for e in entries:
+        e.save()
+
 if __name__ == '__main__':
     script.run()
 
