@@ -3,7 +3,10 @@
 {% block body %}
   <h1>Stream</h1>
   <p>Welcome to the stream! Check out <a href="{{ url_for('blog.index') }}">my blog</a></p>
+  {% if has_prev %}<a href="{{ url_for('stream.show_page', num=current-1) }}">&lt;- {{ current-1}}</a>{% endif %}
+  {% if has_next %}<a href="{{ url_for('stream.show_page', num=current+1) }}">{{ current+1}} -&gt;</a>{% endif %}
   {% for entry in entries %}
     {{ entry.rendered|safe }}
   {% endfor %}
+
 {% endblock %}
