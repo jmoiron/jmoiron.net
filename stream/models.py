@@ -3,17 +3,17 @@
 
 """stream data access models"""
 
-from flask import g, render_template
-from utils import Model, Manager, required
+from flask import render_template
+from micromongo import *
 
 class Entry(Model):
-    objects = Manager('stream_entries')
+    collection = 'jmoiron.stream_entry'
     spec = {
-        'source_tag' : required,
-        'title' : None,
-        'permalink': None,
-        'data': None,
-        'id': 0,
+        'source_tag' : Field(required=True, type=basestring),
+        'title' : Field(required=True, type=basestring),
+        'permalink': Field(type=basestring),
+        'data': Field(required=True),
+        'id': Field(type=int), # legacy
     }
 
     def pre_save(self):

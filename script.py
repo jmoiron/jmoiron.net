@@ -32,21 +32,21 @@ def migratedb(dumpfile=None):
     """Run a migration from an SQL database."""
     from misc import migrate
     print 'Flushing current mongo database...'
-    action_flushdb()
+    flushdb()
     if dumpfile:
         print 'Reloading database from "%s"...' % dumpfile
         migrate.loaddb(dumpfile)
     print 'Migrating stream objects...'
     m = migrate.Migrate()
     stream = m.stream()
-    db['stream_entries'].insert(stream['entries'])
-    db['stream_plugins'].insert(stream['plugins'])
+    db['stream_entry'].insert(stream['entries'])
+    db['stream_plugin'].insert(stream['plugins'])
     print 'Migrating blog posts...'
     blog = m.blog()
-    db['tags'].insert(blog['tags'])
-    db['blog_posts'].insert(blog['posts'])
+    db['tag'].insert(blog['tags'])
+    db['blog_post'].insert(blog['posts'])
     print 'Creating indexes...'
-    action_create_indexes()
+    create_indexes()
 
 if __name__ == '__main__':
     script.run()

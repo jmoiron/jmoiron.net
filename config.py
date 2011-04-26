@@ -6,7 +6,8 @@
 class Config(object):
     DEBUG = False
     TESTING = False
-    DATABASE_URI = "mongodb://localhost:27017/jmoiron"
+    DATABASE_URI = "mongodb://localhost:27017/"
+    DATABASE_NAME = "jmoiron"
 
 class DevelopmentConfig(Config):
     DEBUG = True
