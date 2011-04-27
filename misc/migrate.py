@@ -67,7 +67,6 @@ class Migrate(object):
 
     def blog(self):
         posts = read_table("blog_post")
-        comments = read_table("comments_comment")
         tags = read_table("tagging_tag")
         tagged_objects = read_table("tagging_taggedobject")
         tags_by_id = dict([(tag['id'], dstrip(tag, 'id')) for tag in tags])
@@ -76,11 +75,12 @@ class Migrate(object):
             tags_by_post_id\
                 .setdefault(to['object_id'], [])\
                 .append(tags_by_id[to['tag_id']]['slug'])
+        comments = read_table("comments_comment")
         comments_by_post_id = {}
         for co in comments:
             comments_by_post_id\
                 .setdefault(co['object_id'], [])\
-                .append(dstrip(co, 'id', 'content_type_id', 'object_id'))
+                .append(co['id'])
         for post in posts:
             post['tags'] = tags_by_post_id.get(post['id'], [])
             post['comments'] = comments_by_post_id.get(post['id'], [])
@@ -92,5 +92,7 @@ class Migrate(object):
     def comments(self):
         bannedips = read_table("comments_bannedipaddress")
         submissions = read_table("comments_commentsubmission")
+        comments = read_table("comments_comment")
+        return locals()
         return dict(bannedips=bannedips, submissions=submissions)
 

@@ -14,6 +14,8 @@ def flushdb():
     db.drop_collection('blog_post')
     db.drop_collection('stream_entry')
     db.drop_collection('stream_plugin')
+    db.drop_collection('comment')
+    db.drop_collection('banned_ip')
     db.drop_collection('flatpage')
     db.drop_collection('tag')
 
@@ -45,6 +47,17 @@ def migratedb(dumpfile=None):
     blog = m.blog()
     db['tag'].insert(blog['tags'])
     db['blog_post'].insert(blog['posts'])
+    print 'Migrating comments...'
+    comments = m.comments()
+    db['comment'].insert(comments['comments'])
+    db['banned_ip'].insert(comments['bannedips'])
+    print 'Resetting blog comments to use oids..'
+    mapping = dict([(c['id'], c['_id']) for c in db.comment.find()])
+    for post in db['blog_post'].find({'comments': {'$ne': []}}):
+        post['comments'] = [mapping[c] for c in post['comments']]
+        db['blog_post'].save(post)
+    print 'Rerendering entries...'
+    rerender_entries()
     print 'Creating indexes...'
     create_indexes()
 
