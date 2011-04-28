@@ -18,7 +18,8 @@ def humansize(bytesize, persec=False):
 # -- pagination --
 
 class Page(object):
-    def __init__(self, number, per_page, total_objects, window=8):
+    def __init__(self, number, per_page, total_objects, window=8, urlfunc=None,
+            inter='...'):
         self.number = number
         self.per_page = per_page
         self.begin_offset = (number-1) * per_page
@@ -29,12 +30,26 @@ class Page(object):
         self.num_pages = (total_objects / per_page)
         self.num_pages += 1 if (total_objects % per_page) else 0
         self.window = window
+        self.urlfunc = None
+        self.inter = inter
 
     def slice(self):
+        """Return a slice representing the current page's objects in an object
+        list or stream.  Most ORMs will allow slicing for limit/offset."""
         return slice(self.begin_offset, self.end_offset)
 
     def context(self):
-        return page_context(self, window=self.window, total=self.num_pages) 
+        """Return a page's context, which is a list of strings representing
+        pages or interspersed ellipses that surround the current page."""
+        return page_context(self, window=self.window, total=self.num_pages,
+                inter=self.inter)
+
+    def link_for(self, page):
+        """Return a link for a particular page, based on urlfunc if available,
+        or just the page number if not."""
+        if not self.urlfunc:
+            return '/%s' % page
+        return self.urlfunc(page)
 
 def make_window(center, size):
     """Make a number window of size with the 'center' in the middle."""

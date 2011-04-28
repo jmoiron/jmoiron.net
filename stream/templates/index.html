@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 
+{% from "pagination.html" import show_paginator without context %}
+
 {% block body %}
   <h1>Stream</h1>
   <p>Welcome to the stream! Check out <a href="{{ url_for('blog.index') }}">my blog</a></p>
-  {% if has_prev %}<a href="{{ url_for('stream.show_page', num=current-1) }}">&lt;- {{ current-1}}</a>{% endif %}
-  {% if has_next %}<a href="{{ url_for('stream.show_page', num=current+1) }}">{{ current+1}} -&gt;</a>{% endif %}
+  {% if page %}{{ show_paginator(page) }}{% endif %}
   {% for entry in entries %}
-    {% if not entry.rendered %}
-      <h2>{{ entry.title }} from <tt>{{ entry.source_tag }}</tt></h2>
-    {% endif %}
-    {{ entry.rendered|safe }}
+    <div class="stream_entry">{{ entry.rendered|safe }}</div>
   {% endfor %}
+  {% if page %}{{ show_paginator(page) }}{% endif %}
 
 {% endblock %}
