@@ -1,0 +1,118 @@
+/* stream.less
+ * written by @jmoiron for jmoiron.net
+ * uses bootstrap.less : http://markdotto.com/bootstrap/
+ */
+
+.brighten(@color) {
+  background-color: @color;
+  &:hover { background-color: @color - #060606; }
+}
+
+.stream { margin-top: 2em; }
+
+.entry {
+  margin-bottom: 1.5em;
+  h3.title {
+    .vollkorn;
+    line-height: 1.75em;
+    font-weight: normal;
+    font-size: 26px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #f4f4f4;
+    img { margin-bottom: -.30em; margin-right: 5px; }
+    a.icon { width: 24px; height: 24px; &:hover { background-color: transparent; }}
+  }
+  .date { font-size: 0.85em;  color: #999; float: right; margin-top: -1.75em; }
+  .date:hover { color: #555; }
+  .content {
+    clear: both;
+    color: #333;
+    margin-top: .5em;
+    padding: 0 10px;
+    font-size: 1em;
+  }
+  .bb-files, .gh-files {
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 1em;
+    border: 1px solid #f4f4f4;
+    .modified { .brighten(#eee); }
+    .added { .brighten(#dfd); }
+    .removed { .brighten(#fdd); }
+    td {
+      font-size: 0.75em;
+      padding: 4px 10px; 
+      text-align: left;
+      a { color: #333; &:hover { color: #000; background-color: transparent; }}
+    }
+
+    li { 
+      margin-bottom: 2px;
+      margin-left: 2px;
+      margin-right: 2px;
+      padding: 0 10px;
+      line-height: 2em;
+      font-size: 0.75em;
+      text-align: left;
+      a { color: #333; &:hover { color: #000; background-color: transparent; }}
+    }
+  }
+  .gh-files .modified {
+    .expander {
+      float: right;
+      margin-top: -2.15em;
+      a {
+        font-size: .75em;
+        color: #333;
+        padding: 0px 4px;
+        background-color: #ddd;
+        border: 3px solid #fff;
+        /* .box_shadow(0px, 0px, 10px, #bbb); */
+        .border-radius(6px, 6px, 6px, 6px);
+        text-decoration: none;
+        &:hover {
+          background-color: #ccc;
+          border-color: #fbfbfb;
+          color: #000;
+        }
+      }
+    }
+  }
+  .gh-files {
+    padding-top: 2px;
+    .diff {
+      border: 1px solid #ddd;
+      display: none;
+      line-height: 1.25em;
+      padding: 3px 10px;
+      overflow-x: auto;
+    }
+  }
+}
+
+.stream .twitter {
+  h3.title {
+    font-family: @font-serif;
+    color: #444;
+    font-weight: normal;
+    line-height: 1.5em;
+    font-size: 22px;
+    margin-bottom: .5em;
+    border-bottom: 0;
+  }
+
+  .content {
+    font-size: 0.75em;
+    margin-bottom: 1.5em;
+    a {
+      color: #666;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+        background-color: transparent;
+        color: #222;
+      }
+    }
+  }
+}
+

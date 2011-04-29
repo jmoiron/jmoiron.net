@@ -3,12 +3,14 @@
 {% from "pagination.html" import show_paginator without context %}
 
 {% block body %}
-  <h1>Stream</h1>
-  <p>Welcome to the stream! Check out <a href="{{ url_for('blog.index') }}">my blog</a></p>
-  {% if page %}{{ show_paginator(page) }}{% endif %}
-  {% for entry in entries %}
-    <div class="stream_entry">{{ entry.rendered|safe }}</div>
-  {% endfor %}
+  <div class="note">
+    The website of a web programmer, footie fan, rubbish photographer, and jack of literally some trades.
+  </div>
+  <div class="stream">
+  {% for entry in entries -%}
+    <div class="entry {{ entry.source_tag }}">{{ entry.rendered|safe }}</div>
+  {%- endfor %}
+  </div>
   {% if page %}{{ show_paginator(page) }}{% endif %}
 
 {% endblock %}

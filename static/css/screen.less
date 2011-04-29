@@ -1,0 +1,159 @@
+/* screen.less
+ * written by @jmoiron for jmoiron.net
+ * uses bootstrap.less : http://markdotto.com/bootstrap/
+ */
+
+@import "bootstrap.less";
+
+/* -- reset -- */
+* { margin: 0; padding: 0; font-size: 1em; 
+  text-decoration: none; border: none;
+  list-style: none; outline: none; }
+
+.vollkorn() { font-family: "Vollkorn", @font-serif; }
+
+@ltgray: #eee;
+@dkgray: #111;
+@cream: #f6f6e6;
+@win2k: #3A6EA5;
+
+@linkcolor: @win2k - #222;
+
+body {
+  .serif(normal, 100%);
+  background-color: @ltgray;
+  color: @dkgray;
+}
+
+/* -- page level styles -- */
+
+#page {
+  position: relative;
+  width: 700px;
+  margin: 60px auto 50px auto; 
+  background: @ltgray;
+  .box-shadow(0px 0px 12px (@ltgray - #333));
+  border: 1px solid (@ltgray - #111);
+  p, ul, blockquote { margin-bottom: 1em; }
+}
+
+#header { margin: 0 0 0 0; padding: 0; text-align: center; font-weight: normal; }
+
+#title {
+  .vollkorn;
+  letter-spacing: -0.05em;
+  background-color: @win2k;
+  text-shadow: 1px 1px 1px (@win2k + #222);
+  border-bottom: 2px solid (@win2k + #222);
+  font-weight: normal;
+  font-size: 3em;
+  margin: 0;
+  padding: 1.25em 0 1.25em 0;
+  a {
+    color: white;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+#menu {
+  position: absolute; top: -31px; left: 0px;
+  width: 700px;
+  li {
+    display: inline;
+    a {
+      text-decoration: none;
+      color: @ltgray - #555;
+      text-shadow: 1px 1px 1px (@ltgray + #111);
+      padding: 0 10px 10px 10px;
+      &:hover { color: @linkcolor; text-decoration: underline; }
+    }
+    a.active {
+      color: @ltgray - #888;
+      &:hover { color: @linkcolor; text-decoration: underline; }
+    }
+  }
+}
+
+#content {
+  background-color: white;
+  padding: 2em 3em;
+}
+
+#body {
+  width: 700px;
+  background-color: white;
+}
+
+#footer {
+  margin: 30px auto 0 auto;
+  text-align: center;
+  .license { margin-top: 5px; img { margin-bottom: -5px; }}
+}
+
+
+div.post, div.stream { clear: both; position: relative; margin-bottom: 2em; }
+
+/* -- stream -- */
+
+@import "stream.less";
+
+/* -- blog -- */
+
+@import "blog.less";
+
+/* -- pagination -- */
+
+.pagination {
+  color: #777;
+  margin-top: 1em;
+  text-align: center;
+  span {
+    padding: 2px 8px 5px;
+  }
+  .link {
+    padding: 0;
+    a {
+      background-color: @win2k;
+      border-color: @win2k - #222;
+      color: white;
+      padding: 2px 8px 5px;
+      text-decoration: none;
+    }
+    a:hover {
+      background-color: @win2k + #222;
+      border-color: @win2k;
+    }
+  }
+}
+
+/* -- notes -- */
+
+.note {
+  font-style: oblique;
+  background-color: @cream;
+  letter-spacing: -0.03em;
+  padding: 7px 10px;
+  line-height: 1.5em;
+  color: #555;
+  border: 1px solid (@cream + #060606);
+  .box-shadow(0px 0px 2px (@cream - #333));
+  a { 
+    color: @linkcolor;
+    text-decoration: underline;
+    &:hover {
+      color: (@linkcolor + #224);
+      text-shadow: 1px 1px 1px (@linkcolor + #ccc);
+      background-color: (@cream + #060606);
+    }
+  }
+  h2 { 
+    color: #555;
+    font-weight: normal;
+    font-style: normal;
+    margin-bottom: 1em;
+    font-size: 20px;
+  }
+  p:last-of-type { margin-bottom: 0 !important; }
+}
+

@@ -4,6 +4,12 @@
 """utils for jmoiron.net."""
 
 from math import ceil
+from flask import make_response
+from functools import wraps
+from simplejson import dumps as json_dumps
+from datetime import datetime
+from micromongo import Model
+from pymongo.objectid import ObjectId
 
 def humansize(bytesize, persec=False):
     """Humanize size string for bytesize bytes."""
@@ -14,6 +20,33 @@ def humansize(bytesize, persec=False):
     while bytesize /(reduce_factor**(oom+1)) >= 1:
         oom += 1
     return '%0.2f %s' % (bytesize/reduce_factor**oom, units[oom])
+
+# -- json utils -- 
+
+def json_response(view):
+    @wraps(view)
+    def wrapped(*args, **kwargs):
+        ret = view(*args, **kwargs)
+        if isinstance(ret, basestring):
+            resp = make_response(ret)
+            resp.headers['ContentType'] = 'application/json'
+            return resp
+        return ret
+    return wrapped
+
+def _json_handler(obj):
+    if isinstance(obj, datetime):
+        return 'new Date("%s")' % obj.ctime()
+    if isinstance(obj, Model):
+        return dumps(dict(obj))
+    if isinstance(obj, ObjectId):
+        return json_dumps(str(obj))
+    return json_dumps(obj)
+
+@wraps(json_dumps)
+def dumps(*args, **kwargs):
+    kwargs['default'] = _json_handler
+    return json_dumps(*args, **kwargs)
 
 # -- pagination --
 

@@ -7,7 +7,7 @@ import os
 import re
 import time
 
-from flask import Flask, g
+from flask import *
 from micromongo import connect, current
 
 # modules from which to build our application
@@ -30,6 +30,8 @@ app.register_module(stream, url_prefix='/stream')
 @app.before_request
 def before_request():
     g.db = current()[dbname]
+    g.section = filter(None, request.path.split('/'))
+    g.section = g.section[0] if g.section else 'index'
 
 @app.after_request
 def after_request(response):

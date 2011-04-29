@@ -2,10 +2,50 @@
 <html>
   <head>
     <title>{% if title %}{{ title }}{% else %}jmoiron.net{% endif %}</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    {% block head %}{% endblock %}
+    <link rel="shortcut icon" href="{{ url_for('.static', filename='favicon.ico') }}">
+    <link href="http://fonts.googleapis.com/css?family=Vollkorn:regular,bold" rel="stylesheet" type="text/css" >
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    
+    {% if config.DEBUG -%}
+    <!-- debug mode less/js combo -->
+    <link media="screen" rel="stylesheet/less" type="text/css" href="{{ url_for('.static', filename='css/screen.less') }}">
+    <script type="text/javascript" src="{{ url_for('.static', filename='js/less.js') }}"></script>
+    {%- else -%}
+    <link media="screen" rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/screen.css') }}">
+    {%- endif -%}
+    {%- block head -%}{%- endblock %}
   </head>
   <body>
-    {% block body %}{% endblock %}
+  <div id="page">
+    <! -- header -->
+    <div id="header">
+      <h1 id="title"><a href="/">jmoiron.net</a></h1>
+      <div id="menu">
+        <ul>
+          <li><a href="/blog/" {% if g.section == 'blog' %}class="active"{% endif %}>blog</a></li>
+          <li><a href="/projects/" {% if g.section == 'projects' %}class="active"{% endif %}>projects</a></li>
+          <li><a href="/about/" {% if g.section == 'about' %}class="active"{% endif %}>about</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- content -->
+    <div id="content">
+      <div class="body">
+        {% block body -%}
+        {%- endblock %}
+      </div>
+
+      <div id="footer">
+        {% set base_url = request.base_url %}
+        <a href="http://validator.w3.org/check?verbose=1&amp;uri={{ base_url }}">html5</a> | 
+        <a href="http://www.contentquality.com/mynewtester/cynthia.exe?rptmode=-1&amp;url1={{ base_url }}">508</a> | 
+        <a href="http://jigsaw.w3.org/css-validator/validator?uri={{ request.url_root }}/static/css/screen.css">css</a> | 
+        <a href="http://feedvalidator.org/check.cgi?url={{ base_url }}">rss</a> | 
+        <a href="http://www.contentquality.com/mynewtester/cynthia.exe?rptmode=2&amp;url1={{ base_url }}">♿</a>
+        <br />
+        <a class="license" href="http://creativecommons.org/licenses/publicdomain/"><img src="/media/img/fugue/creative-commons.png" alt="cc" /> public domain</a>
+      </div>
+    </div>
+  </div>
   </body>
 </html>
