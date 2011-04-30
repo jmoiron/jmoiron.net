@@ -10,6 +10,7 @@
     <!-- debug mode less/js combo -->
     <link media="screen" rel="stylesheet/less" type="text/css" href="{{ url_for('.static', filename='css/screen.less') }}">
     <script type="text/javascript" src="{{ url_for('.static', filename='js/less.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('.stream.static', filename='stream.js') }}"></script>
     {%- else -%}
     <link media="screen" rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/screen.css') }}">
     {%- endif -%}
@@ -17,7 +18,7 @@
   </head>
   <body>
   <div id="page">
-    <! -- header -->
+    <!-- header -->
     <div id="header">
       <h1 id="title"><a href="/">jmoiron.net</a></h1>
       <div id="menu">
@@ -43,7 +44,7 @@
         <a href="http://feedvalidator.org/check.cgi?url={{ base_url }}">rss</a> | 
         <a href="http://www.contentquality.com/mynewtester/cynthia.exe?rptmode=2&amp;url1={{ base_url }}">♿</a>
         <br />
-        <a class="license" href="http://creativecommons.org/licenses/publicdomain/"><img src="/media/img/fugue/creative-commons.png" alt="cc" /> public domain</a>
+        <a class="license" href="http://creativecommons.org/licenses/publicdomain/"><img src="{{ url_for('.static', filename='img/creative-commons.png') }}" alt="cc" /> public domain</a>
       </div>
     </div>
   </div>

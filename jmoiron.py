@@ -6,6 +6,7 @@
 import os
 import re
 import time
+import argot
 
 from flask import *
 from micromongo import connect, current
@@ -52,6 +53,10 @@ def pretty_datetime(dt):
     return time.strftime('%B %d, %Y, %I:%M %p', dt.timetuple())\
             .replace('AM', 'a.m.')\
             .replace('PM', 'p.m.')
+
+@app.template_filter('argot')
+def argot_filter(string):
+    return argot.render(str(string))
 
 if __name__ != '__main__':
     db = current()[dbname]

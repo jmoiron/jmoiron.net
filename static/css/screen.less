@@ -25,6 +25,8 @@ body {
   color: @dkgray;
 }
 
+a { color: @linkcolor; &:hover { color: @linkcolor - #222; text-decoration: underline; }}
+
 /* -- page level styles -- */
 
 #page {
@@ -93,6 +95,10 @@ body {
 
 
 div.post, div.stream { clear: both; position: relative; margin-bottom: 2em; }
+
+/* -- syntax highlighting -- */
+
+@import "pygments/trac.less";
 
 /* -- stream -- */
 

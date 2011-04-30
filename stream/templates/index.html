@@ -4,8 +4,8 @@
 
 {% block body %}
   <div class="note">
-    The website of a web programmer, footie fan, rubbish photographer, and jack of literally some trades.
-  </div>
+    {% filter argot -%}The website of a [web programmer](https://github.com/jmoiron), footie fan, rubbish photographer, and jack of literally some trades.
+  {%- endfilter %}</div>
   <div class="stream">
   {% for entry in entries -%}
     <div class="entry {{ entry.source_tag }}">{{ entry.rendered|safe }}</div>
