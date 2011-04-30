@@ -13,15 +13,11 @@ per_page = 25
 
 @stream.route("/")
 def index():
-    p = Page(1, per_page, Entry.find().count())
-    p.urlfunc = lambda n: url_for('stream.show_page', num=n)
-    entries = Entry.find().order_by('-timestamp')[p.slice()]
-    return render_template('stream/index.html', entries=entries, page=p)
+    return show_page(1)
 
 @stream.route("/page/<int:num>")
 def show_page(num):
-    total = Entry.find().count()
-    p = Page(num, per_page, total)
+    p = Page(num, per_page, Entry.find().count())
     if not p.exists:
         abort(404)
     p.urlfunc = lambda n: url_for('stream.show_page', num=n)

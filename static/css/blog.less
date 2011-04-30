@@ -1,3 +1,23 @@
 /* blog.less
  * written by @jmoiron for jmoiron.net
  */
+
+.blog { margin-top: 2em; }
+.post { margin-bottom: 2em; line-height: 1.75em; }
+
+.post-title {
+  .vollkorn; 
+  font-size: 1.75em;
+  letter-spacing: -0.05em;
+  padding: 0 0 0.75em 0;
+  font-weight: normal;
+  a { color: black; &:hover { text-decoration: underline; }}
+}
+
+.post-footer {
+  font-size: 0.85em;
+  ul { display: inline; li { display: inline; }}
+  .tags { color: #666; padding-left: 5px; }
+  .date { float: right; color: #999; &:hover { color: #444; }}
+}
+

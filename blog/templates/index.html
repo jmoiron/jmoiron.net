@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
+{% from "blog/post.html" import render_post without context %}
+{% from "pagination.html" import show_paginator without context %}
+
 {% block body %}
-  <h1>blog</h1>
-  <p>Hi.  Welcome to my blog!</p>
+  <div class="note">
+    Welcome to my blog.  I don't know what to write here, so I don't write often.
+  </div>
+  <div class="blog">
+    {% for post in posts -%}
+      {{ render_post(post) }}
+    {%- endfor %}
+  </div>
+  {{ show_paginator(page) }}
 {% endblock %}

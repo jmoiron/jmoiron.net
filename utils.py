@@ -4,6 +4,7 @@
 """utils for jmoiron.net."""
 
 from math import ceil
+from lxml import html
 from flask import make_response
 from functools import wraps
 from simplejson import dumps as json_dumps
@@ -20,6 +21,21 @@ def humansize(bytesize, persec=False):
     while bytesize /(reduce_factor**(oom+1)) >= 1:
         oom += 1
     return '%0.2f %s' % (bytesize/reduce_factor**oom, units[oom])
+
+def summarize(string):
+    """Summarize a bunch of html.
+
+    What 'summarize' means in this case is to cherrypick the first paragraph
+    as well as, if it precedes that tag, the first image tag."""
+    soup = html.fragments_fromstring(string)
+    ret = []
+    for tag in soup:
+        if tag.tag == 'img':
+            ret.append(html.tostring(tag, method='xml'))
+        elif tag.tag == 'p':
+            ret.append(html.tostring(tag))
+            break
+    return '\n'.join(ret)
 
 # -- json utils -- 
 
