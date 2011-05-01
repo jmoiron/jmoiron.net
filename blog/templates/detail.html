@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% from "blog/post.html" import render_post without context %}
+{% from "pagination.html" import show_paginator without context %}
+
+{% block body %}
+  <div class="blog">
+    {{ render_post(post) }}
+  </div>
+  <h3>comments ...</h3>
+{% endblock %}

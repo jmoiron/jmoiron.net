@@ -3,6 +3,8 @@
 
 """utils for jmoiron.net."""
 
+import time
+
 from math import ceil
 from lxml import html
 from flask import make_response
@@ -42,6 +44,16 @@ def utc_to_timezone(datetime, tz="US/Eastern"):
     """Converts a naive time assumed to be UTC to the desired timezone."""
     tz = timezone(tz)
     return utc.localize(datetime).astimezone(tz)
+
+def timer(func):
+    """Fast timer that prints the time a function takes."""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        t0 = time.time()
+        ret = func(*args, **kwargs)
+        print "%s took %0.2fs" % (func.__name__, time.time() - t0)
+        return ret
+    return wrapper
 
 # -- json utils -- 
 

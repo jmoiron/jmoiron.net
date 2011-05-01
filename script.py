@@ -52,10 +52,11 @@ def migratedb(dumpfile=None):
     db['comment'].insert(comments['comments'])
     db['banned_ip'].insert(comments['bannedips'])
     print 'Resetting blog comments to use oids..'
+    from blog.models import Post
     mapping = dict([(c['id'], c['_id']) for c in db.comment.find()])
-    for post in db['blog_post'].find({'comments': {'$ne': []}}):
-        post['comments'] = [mapping[c] for c in post['comments']]
-        db['blog_post'].save(post)
+    for post in Post.find({'comments': {'$ne': []}}):
+        post.comments = [mapping[c] for c in post['comments']]
+        post.save()
     print 'Rerendering entries...'
     rerender_entries()
     print 'Creating indexes...'

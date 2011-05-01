@@ -93,6 +93,10 @@ class Migrate(object):
         bannedips = read_table("comments_bannedipaddress")
         submissions = read_table("comments_commentsubmission")
         comments = read_table("comments_comment")
+        for c in comments:
+            del c['content_type_id']
+            c['url'] = c.pop('website')
+            c['timestamp'] = c.pop('submit_date')
+            c['object'] = ('blog_post', c.pop('object_id'))
         return locals()
-        return dict(bannedips=bannedips, submissions=submissions)
 
