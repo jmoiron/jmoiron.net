@@ -11,6 +11,7 @@ from simplejson import dumps as json_dumps
 from datetime import datetime
 from micromongo import Model
 from pymongo.objectid import ObjectId
+from pytz import timezone, utc
 
 def humansize(bytesize, persec=False):
     """Humanize size string for bytesize bytes."""
@@ -36,6 +37,11 @@ def summarize(string):
             ret.append(html.tostring(tag))
             break
     return '\n'.join(ret)
+
+def utc_to_timezone(datetime, tz="US/Eastern"):
+    """Converts a naive time assumed to be UTC to the desired timezone."""
+    tz = timezone(tz)
+    return utc.localize(datetime).astimezone(tz)
 
 # -- json utils -- 
 

@@ -50,6 +50,8 @@ def index():
 @app.template_filter('pdt')
 def pretty_datetime(dt):
     """Show date in a pretty way, similar to new default datetime in django."""
+    from utils import utc_to_timezone
+    dt = utc_to_timezone(dt, 'US/Eastern')
     return time.strftime('%B %d, %Y, %I:%M %p', dt.timetuple())\
             .replace('AM', 'a.m.')\
             .replace('PM', 'p.m.')
