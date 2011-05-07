@@ -22,3 +22,22 @@
   .date { float: right; color: #999; &:hover { color: #444; }}
 }
 
+.numcomments { margin-bottom: 2em; }
+.blog .comments .comment {
+  padding: 0 10px;
+  margin-bottom: 2em;
+  .body { padding: 0 5px; line-height: 1.75em; }
+  h4 { margin: .5em 0 1em; font-size: 1.25em; }
+  .footer {
+    .permalink { margin-right: 10px; font-size: 1.25em; a { color: #999; }}
+    .date { float: right; color: #aaa; font-size: 0.85em; }
+    margin-bottom: 1em;
+  }
+  &.odd { color: @dkgray + #222; }
+  &.even {
+    background-color: @ltgray + #060606;
+    color: @dkgray - #060606;
+    border: 1px solid #fff;
+    .box-shadow(0 0 2px (@ltgray - #333));
+  }
+}

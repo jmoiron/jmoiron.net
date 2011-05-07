@@ -1,0 +1,15 @@
+{# comment rendering #}
+
+{% macro render_comment(c, cls='') -%}
+  <div class="comment {{ cls }}">
+    <h4>{% if c.url %}<a href="{{ c.url }}" name="{{c.id}}">{% endif %}{{ c.name }}{% if c.url %}</a>{% endif %}</h4>
+    <div class="body">
+      {{ c.rendered|safe }}
+    </div>
+    <div class="footer">
+      <span class="date">{{ c.timestamp|pdt }}</span>
+      <span class="permalink"><a href="#{{c.id}}">∞</a></span>
+    </div>
+  </div>
+{% endmacro %}
+

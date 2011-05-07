@@ -14,6 +14,7 @@ from micromongo import connect, current
 # modules from which to build our application
 from blog.views import blog
 from stream.views import stream
+from comments.views import comments
 
 app = Flask(__name__)
 
@@ -25,6 +26,7 @@ dbname = app.config['DATABASE_NAME']
 
 app.register_module(blog, url_prefix='/blog')
 app.register_module(stream, url_prefix='/stream')
+app.register_module(comments, url_prefix='/comments')
 
 # -- request setup/shutdown --
 

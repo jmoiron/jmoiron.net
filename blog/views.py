@@ -5,6 +5,8 @@
 
 from flask import *
 from models import *
+from comments.models import Comment
+
 from utils import Page, json_response, dumps
 
 blog = Module(__name__, 'blog')
@@ -30,5 +32,6 @@ def detail(slug):
         post = Post.find({'slug': slug})[0]
     except IndexError:
         abort(404)
+    post.load_comments()
     return render_template('blog/detail.html', post=post)
 

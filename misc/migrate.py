@@ -80,7 +80,10 @@ class Migrate(object):
         for co in comments:
             comments_by_post_id\
                 .setdefault(co['object_id'], [])\
-                .append(co['id'])
+                .append((co['submit_date'], co['id']))
+        for k in comments_by_post_id.keys():
+            comments_by_post_id[k] = list(sorted(comments_by_post_id[k]))
+            comments_by_post_id[k] = [c[1] for c in comments_by_post_id[k]]
         for post in posts:
             post['tags'] = tags_by_post_id.get(post['id'], [])
             post['comments'] = comments_by_post_id.get(post['id'], [])

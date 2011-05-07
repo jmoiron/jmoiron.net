@@ -31,6 +31,17 @@ class Post(Model):
             self.id = Post.find().count()
         if not self.timestamp:
             self.timestamp = datetime.now()
+        # make sure we undo any comment loading we might have done
+        if self.comments and isinstance(self.comments[0], Model):
+            self.comments = [c['_id'] for c in self.comments]
         self.rendered = argot.render(self.body)
         self.summary = summarize(self.rendered)
+
+    def load_comments(self):
+        """Load comment documents into self.comments rather than oid refs.
+        Saving the post reverts this, but be careful not to modify the object's
+        comments after you've done this."""
+        from comments.models import Comment
+        oidmap = Comment.for_objects(self)
+        self.comments = [oidmap[c] for c in self.comments]
 

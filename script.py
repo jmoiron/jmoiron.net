@@ -59,6 +59,9 @@ def migratedb(dumpfile=None):
         post.save()
     print 'Rerendering entries...'
     rerender_entries()
+    print 'Rerendering comments...'
+    for c in db['comment'].find():
+        c.save()
     print 'Creating indexes...'
     create_indexes()
 
