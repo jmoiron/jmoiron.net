@@ -39,3 +39,4 @@ def ajax_page(num):
         abort(404)
     entries = Entry.find().order_by('-timestamp')[p.slice()]
     return dumps([e.rendered for e in entries], indent=2, sort_keys=True)
+
