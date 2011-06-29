@@ -7,7 +7,10 @@ from flask import *
 from models import Entry, Plugin
 from utils import Page, json_response, dumps
 
-stream = Module(__name__, 'stream')
+stream = Blueprint('stream', __name__,
+    template_folder='templates',
+    static_folder='static',
+)
 
 per_page = 25
 

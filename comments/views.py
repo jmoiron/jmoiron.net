@@ -7,7 +7,10 @@ from flask import *
 from models import *
 from utils import Page, json_response, dumps
 
-comments = Module(__name__, 'comments')
+comments = Blueprint('comments', __name__,
+    template_folder='templates',
+    static_folder='static',
+)
 
 per_page = 20
 

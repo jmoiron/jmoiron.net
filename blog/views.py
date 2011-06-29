@@ -9,7 +9,10 @@ from comments.models import Comment
 
 from utils import Page, json_response, dumps
 
-blog = Module(__name__, 'blog')
+blog = Blueprint('blog', __name__,
+    template_folder='templates',
+    static_folder='static',
+)
 
 per_page = 10
 
@@ -34,4 +37,6 @@ def detail(slug):
         abort(404)
     post.load_comments()
     return render_template('blog/detail.html', post=post)
+
+blog_admin = Blueprint(__name__, 'blog_admin')
 

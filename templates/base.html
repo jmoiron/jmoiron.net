@@ -2,17 +2,17 @@
 <html>
   <head>
     <title>{% if title %}{{ title }}{% else %}jmoiron.net{% endif %}</title>
-    <link rel="shortcut icon" href="{{ url_for('.static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href="http://fonts.googleapis.com/css?family=Vollkorn:regular,bold" rel="stylesheet" type="text/css" >
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
     
     {% if config.DEBUG -%}
     <!-- debug mode less/js combo -->
-    <link media="screen" rel="stylesheet/less" type="text/css" href="{{ url_for('.static', filename='css/screen.less') }}">
-    <script type="text/javascript" src="{{ url_for('.static', filename='js/less.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('.stream.static', filename='stream.js') }}"></script>
+    <link media="screen" rel="stylesheet/less" type="text/css" href="{{ url_for('static', filename='css/screen.less') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/less.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('stream.static', filename='stream.js') }}"></script>
     {%- else -%}
-    <link media="screen" rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/screen.css') }}">
+    <link media="screen" rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/screen.css') }}">
     {%- endif -%}
     {%- block head -%}{%- endblock %}
   </head>
@@ -44,7 +44,7 @@
         <a href="http://feedvalidator.org/check.cgi?url={{ base_url }}">rss</a> | 
         <a href="http://www.contentquality.com/mynewtester/cynthia.exe?rptmode=2&amp;url1={{ base_url }}">♿</a>
         <br />
-        <a class="license" href="http://creativecommons.org/licenses/publicdomain/"><img src="{{ url_for('.static', filename='img/creative-commons.png') }}" alt="cc" /> public domain</a>
+        <a class="license" href="http://creativecommons.org/licenses/publicdomain/"><img src="{{ url_for('static', filename='img/creative-commons.png') }}" alt="cc" /> public domain</a>
       </div>
     </div>
   </div>

@@ -11,10 +11,11 @@ import argot
 from flask import *
 from micromongo import connect, current
 
-# modules from which to build our application
+# "blueprints" from which to build our application
 from blog.views import blog
 from stream.views import stream
 from comments.views import comments
+from flatpages.views import flatpage
 
 app = Flask(__name__)
 
@@ -24,9 +25,9 @@ app.config.from_object('config.%sConfig' % runlevel)
 connect(app.config['DATABASE_URI'])
 dbname = app.config['DATABASE_NAME']
 
-app.register_module(blog, url_prefix='/blog')
-app.register_module(stream, url_prefix='/stream')
-app.register_module(comments, url_prefix='/comments')
+app.register_blueprint(blog, url_prefix='/blog')
+app.register_blueprint(stream, url_prefix='/stream')
+app.register_blueprint(comments, url_prefix='/comments')
 
 # -- request setup/shutdown --
 
@@ -46,6 +47,13 @@ def after_request(response):
 def index():
     from stream.views import index
     return index()
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "HTTP 404: page not found", 404
+
+# flatpages
+app.register_blueprint(flatpage)
 
 # -- jinja2 filters --
 
