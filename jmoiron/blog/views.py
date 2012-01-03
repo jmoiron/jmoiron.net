@@ -5,9 +5,9 @@
 
 from flask import *
 from models import *
-from comments.models import Comment
+from jmoiron.comments.models import Comment
 
-from utils import Page, json_response, dumps
+from jmoiron.utils import Page, json_response, dumps
 
 blog = Blueprint('blog', __name__,
     template_folder='templates',
@@ -38,5 +38,5 @@ def detail(slug):
     post.load_comments()
     return render_template('blog/detail.html', post=post)
 
-blog_admin = Blueprint(__name__, 'blog_admin')
+# blog_admin = Blueprint(__name__, 'blog_admin')
 

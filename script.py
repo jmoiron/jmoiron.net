@@ -4,7 +4,7 @@
 """jmoiron.net script/commands"""
 
 from flaskext.script import Manager
-from jmoiron import app, db
+from jmoiron.app import app, db
 
 script = Manager(app)
 
@@ -75,6 +75,18 @@ def rerender_entries(source_tag=None):
         entries = Entry.find()
     for e in entries:
         e.save()
+
+@script.shell
+def shell_context():
+    from jmoiron.blog.models import Post
+
+    return {
+        'app': app,
+        'db': db,
+        'cache': None,
+        'config': None,
+        'Post': Post,
+    }
 
 if __name__ == '__main__':
     script.run()

@@ -12,10 +12,10 @@ from flask import *
 from micromongo import connect, current
 
 # "blueprints" from which to build our application
-from blog.views import blog
-from stream.views import stream
-from comments.views import comments
-from flatpages.views import flatpage
+from jmoiron.blog.views import blog
+from jmoiron.stream.views import stream
+from jmoiron.comments.views import comments
+from jmoiron.flatpages.views import flatpage
 
 app = Flask(__name__)
 

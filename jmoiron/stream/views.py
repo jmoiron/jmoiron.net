@@ -5,7 +5,7 @@
 
 from flask import *
 from models import Entry, Plugin
-from utils import Page, json_response, dumps
+from jmoiron.utils import Page, json_response, dumps
 
 stream = Blueprint('stream', __name__,
     template_folder='templates',

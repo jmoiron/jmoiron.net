@@ -6,7 +6,7 @@
 from flask import *
 from models import *
 
-from utils import Page, json_response, dumps
+from jmoiron.utils import Page, json_response, dumps
 
 flatpage = Blueprint('flatpage', __name__,
     template_folder='templates',

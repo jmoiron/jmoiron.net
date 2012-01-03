@@ -5,7 +5,7 @@
 
 import datetime
 import argot
-from utils import summarize
+from jmoiron.utils import summarize
 
 from flask import render_template
 from micromongo import *
