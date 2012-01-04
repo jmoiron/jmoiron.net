@@ -9,6 +9,7 @@ import time
 import argot
 
 from flask import *
+
 from micromongo import connect, current
 
 # "blueprints" from which to build our application
@@ -16,6 +17,7 @@ from jmoiron.blog.views import blog
 from jmoiron.stream.views import stream
 from jmoiron.comments.views import comments
 from jmoiron.flatpages.views import flatpage
+from jmoiron.auth.models import User, login_manager
 
 app = Flask(__name__)
 
@@ -28,6 +30,9 @@ dbname = app.config['DATABASE_NAME']
 app.register_blueprint(blog, url_prefix='/blog')
 app.register_blueprint(stream, url_prefix='/stream')
 app.register_blueprint(comments, url_prefix='/comments')
+
+login_manager.setup_app(app)
+
 
 # -- request setup/shutdown --
 

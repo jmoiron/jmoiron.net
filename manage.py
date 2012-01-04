@@ -79,13 +79,14 @@ def rerender_entries(source_tag=None):
 @script.shell
 def shell_context():
     from jmoiron.blog.models import Post
+    from jmoiron.auth.models import User
 
     return {
         'app': app,
         'db': db,
         'cache': None,
-        'config': None,
         'Post': Post,
+        'User': User,
     }
 
 if __name__ == '__main__':
