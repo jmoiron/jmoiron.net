@@ -15,7 +15,6 @@ auth = Blueprint('auth', __name__,
     static_folder='static',
 )
 
-
 @auth.route('/login', methods=("GET", "POST"))
 def login():
     """Log the user in or display the login form."""
