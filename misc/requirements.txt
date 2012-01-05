@@ -1,6 +1,9 @@
 Fabric
+# flask stuff
 Flask
 Flask-Script
+flask-wtf
+flask-login
 Jinja2
 Paste
 Pygments
@@ -16,3 +19,4 @@ lxml
 simplejson
 micromongo
 pytz
+

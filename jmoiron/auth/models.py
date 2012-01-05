@@ -9,9 +9,10 @@ from flaskext.login import LoginManager, UserMixin
 from micromongo import *
 
 login_manager = LoginManager()
+login_manager.login_view = "auth.login"
 
 
-class User(Model):
+class User(Model, UserMixin):
     collection = 'jmoiron.user'
     spec = {
         'username': Field(required=True),
