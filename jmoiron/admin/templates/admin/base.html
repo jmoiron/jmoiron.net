@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    {% set title = title or "admin" %}
+    <title>{{ title }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    {% if config.DEBUG -%}
+    <!-- debug mode less/js combo -->
+    <link media="screen" rel="stylesheet/less" type="text/css" href="{{ url_for('admin.static', filename='css/admin.less') }}">
+    <script type="text/javascript" src="{{ url_for('admin.static', filename='js/less.js') }}"></script>
+    {%- else -%}
+    <link media="screen" rel="stylesheet" type="text/css" href="{{ url_for('admin.static', filename='css/admin.css') }}">
+    {%- endif -%}
+    {%- block head -%}{%- endblock %}
+  </head>
+  <body>
+    <div class="topbar-wrapper">
+      <div class="topbar">
+        <div class="topbar-inner">
+          <div class="container-fluid">
+            <a class="brand" href="#">{{ title }}</a>
+            <ul class="nav">
+              {% for app in manager.installed_apps %}
+                <li><a href="{{ url_for('admin.app', slug=app) }}">{{ app }}</a></li>
+              {% endfor %}
+            </ul>
+            <p class="pull-right">logged in as <a href="#">{{ current_user.username }}</a></a>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <div class="container" id="body">
+      <div class="container-fluid">
+        <div class="sidebar" id="sidebar">
+          {% block sidebar %}{% endblock %}
+        </div>
+        <div class="content" id="content">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

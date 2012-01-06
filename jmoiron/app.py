@@ -18,7 +18,10 @@ from jmoiron.stream.views import stream
 from jmoiron.comments.views import comments
 from jmoiron.flatpages.views import flatpage
 from jmoiron.auth.views import auth
+from jmoiron.admin.views import admin
 
+# admin setup
+from jmoiron.admin.models import admin_manager
 # additional authentication stuff
 from jmoiron.auth.models import User, login_manager
 
@@ -34,6 +37,7 @@ app.register_blueprint(blog, url_prefix='/blog')
 app.register_blueprint(stream, url_prefix='/stream')
 app.register_blueprint(comments, url_prefix='/comments')
 app.register_blueprint(auth)
+app.register_blueprint(admin, url_prefix='/admin')
 
 login_manager.setup_app(app)
 
@@ -63,6 +67,9 @@ def page_not_found(e):
 
 # flatpages
 app.register_blueprint(flatpage)
+
+# register everything with the admin manager
+admin_manager.setup_app(app)
 
 # -- jinja2 filters --
 
