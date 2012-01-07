@@ -1,0 +1,31 @@
+{% extends "admin/list.html" %}
+
+{% block title %}
+<h2>Latest comments <small>most recent first</small></h2>
+{% endblock %}
+
+{% block table_header %}
+  <th><span class="label important">x</span></th>
+  <th>name</th>
+  <th>url</th>
+  <th>ip</th>
+  <th>date</th>
+  <th>spam</th>
+{% endblock %}
+
+{% block table_body %}
+  {% for comment in comments %}
+    <tr>
+      <td><input type="checkbox" name="{{ comment.id }}"></td>
+      <td><a href="mailto:{{comment.email}}">{{ comment.name }}</a></td>
+      <td><a href="{{ comment.url }}">{{ comment.url|truncate(25) }}</a></td>
+      <td>{{ comment.ip_address }}</td>
+      <td>{{ comment.timestamp|pdt }}</td>
+      <td>
+        {% if comment.needs_moderation %}<span class="label important">x</span>
+        {% else %}<span class="label success">&#x2713;</span>{% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+

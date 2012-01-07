@@ -1,0 +1,28 @@
+{% extends "admin/list.html" %}
+
+{% block title %}
+<h2>Latest blog posts <small>most recent first</small></h2>
+{% endblock %}
+
+{% block table_header %}
+    <tr>
+      <th><span class="label important">x</span></th>
+      <th>#</th>
+      <th>title</th>
+      <th>date</th>
+      <th># comments</th>
+    </tr>
+{% endblock %}
+
+{% block table_body %}
+  {% for post in posts %}
+    <tr>
+      <td><input type="checkbox" name="{{ post.id }}"></td>
+      <td><a href="{{ url_for("blog.detail", slug=post.slug) }}">{{ post.id }}</a></td>
+      <td><a href="{{ url_for("admin.edit", manager="blog", module="post", id=post.id) }}">{{ post.title }}</a></td>
+      <td>{{ post.timestamp|pdt }}</td>
+      <td>{{ post.comments|length }}</td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+

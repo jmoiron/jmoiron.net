@@ -4,13 +4,10 @@
 """stream application views"""
 
 from flask import *
-from models import Entry, Plugin
-from jmoiron.utils import Page, json_response, dumps
+from models import *
+from models import blueprint as stream
 
-stream = Blueprint('stream', __name__,
-    template_folder='templates',
-    static_folder='static',
-)
+from jmoiron.utils import Page, json_response, dumps
 
 per_page = 25
 
@@ -23,16 +20,16 @@ def show_page(num):
     p = Page(num, per_page, Entry.find().count())
     if not p.exists:
         abort(404)
-    p.urlfunc = lambda n: url_for('stream.show_page', num=n)
-    entries = Entry.find().order_by('-timestamp')[p.slice()]
-    return render_template('stream/index.html', entries=entries, page=p)
+    p.urlfunc = lambda n: url_for("stream.show_page", num=n)
+    entries = Entry.find().order_by("-timestamp")[p.slice()]
+    return render_template("stream/index.html", entries=entries, page=p)
 
 @stream.route("/source/<tag>")
 def show_tag(tag):
-    entries = Entry.find({'source_tag': tag}).order_by('-timestamp')[:per_page]
+    entries = Entry.find({"source_tag": tag}).order_by("-timestamp")[:per_page]
     if not entries:
         abort(404)
-    return render_template('stream/index.html', **locals())
+    return render_template("stream/index.html", **locals())
 
 @stream.route("/ajax/page/<int:num>")
 @json_response
@@ -40,6 +37,6 @@ def ajax_page(num):
     p = Page(num, per_page, Entry.find().count())
     if not p.exists:
         abort(404)
-    entries = Entry.find().order_by('-timestamp')[p.slice()]
+    entries = Entry.find().order_by("-timestamp")[p.slice()]
     return dumps([e.rendered for e in entries], indent=2, sort_keys=True)
 

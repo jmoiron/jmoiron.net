@@ -4,6 +4,7 @@
 """utils for jmoiron.net."""
 
 import time
+import importlib
 
 from math import ceil
 from lxml import html
@@ -14,6 +15,13 @@ from datetime import datetime
 from micromongo import Model
 from pymongo.objectid import ObjectId
 from pytz import timezone, utc
+
+def import_module(module):
+    """Import a module and eat the ImportError if it doesn't exist."""
+    try:
+        return importlib.import_module(module)
+    except ImportError:
+        pass
 
 def humansize(bytesize, persec=False):
     """Humanize size string for bytesize bytes."""

@@ -19,27 +19,26 @@
       <div class="topbar">
         <div class="topbar-inner">
           <div class="container-fluid">
-            <a class="brand" href="#">{{ title }}</a>
+            <a class="brand" href="{{ url_for("admin.index") }}">{{ title }}</a>
             <ul class="nav">
-              {% for app in manager.installed_apps %}
-                <li><a href="{{ url_for('admin.app', slug=app) }}">{{ app }}</a></li>
+              {% for app in admin_manager.blueprints %}
+              <li {% if manager and manager.blueprint == app %}class="active"{% endif %}><a href="{{ url_for('admin.manager', manager=app.name) }}">{{ app.name }}</a></li>
               {% endfor %}
             </ul>
-            <p class="pull-right">logged in as <a href="#">{{ current_user.username }}</a></a>
+            <p class="pull-right">
+              logged in as <a href="#">{{ current_user.username }}</a>
+            </p>
           </div>
   
         </div>
       </div>
     </div>
     <div class="container" id="body">
-      <div class="container-fluid">
-        <div class="sidebar" id="sidebar">
-          {% block sidebar %}{% endblock %}
-        </div>
-        <div class="content" id="content">
-          {% block content %}{% endblock %}
-        </div>
+      {% block layout %}
+      <div class="content" id="content">
+        {% block content %}{% endblock %}
       </div>
+      {% endblock %}
     </div>
   </body>
 </html>

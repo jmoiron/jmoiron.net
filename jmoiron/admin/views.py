@@ -1,27 +1,58 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""admin views."""
+"""Admin views.  These mostly farm out to the registered managers and
+modules, but do provide basic navigation scaffolding for a simple CRUD
+app."""
 
 from flask import *
 from flaskext.login import login_required
+
 from models import admin_manager
+from models import blueprint as admin
 
 from jmoiron.utils import Page, json_response, dumps
 
-admin = Blueprint('admin', __name__,
-    template_folder='templates',
-    static_folder='static',
-)
-
-@admin.route('/')
+@admin.route("/")
 @login_required
 def index():
-    return render_template("admin/index.html", manager=admin_manager)
+    return render_template("admin/index.html",
+        admin_manager=admin_manager)
 
-@admin.route('/<slug>/')
+@admin.route("/<manager>/")
 @login_required
-def app(slug):
-    if slug in admin_manager.installed_apps:
-        return render_template("admin/index.html")
+def manager(manager):
+    try:
+        manager_obj = admin_manager.blueprint_map[manager].admin_manager
+    except (KeyError, AttributeError):
+        abort(404)
+    return render_template("admin/manager_index.html", 
+        admin_manager=admin_manager,
+        manager=manager_obj)
+
+@admin.route("/<manager>/<module>/")
+@login_required
+def list(manager, module):
+    try:
+        manager_obj = admin_manager.blueprint_map[manager]
+        module_obj = manager_obj.modules[module]
+    except (KeyError, AttributeError):
+        abort(404)
+    return render_template("admin/module_index.html", manager=manager_obj, module=module_obj)
+
+@admin.route("/<manager>/<module>/add/", methods=("GET", "POST"))
+@login_required
+def add(manager, module):
     abort(404)
+
+@admin.route("/<manager>/<module>/edit/<id>/", methods=("GET", "POST"))
+@login_required
+def edit(manager, module, id):
+    abort(404)
+
+@admin.route("/<manager>/<module>/delete/", methods=("POST",))
+@login_required
+def delete(manager, module):
+    print request.form
+    return redirect(request.referrer)
+

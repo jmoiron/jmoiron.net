@@ -1,0 +1,22 @@
+{% extends "admin/base_fluid.html" %}
+
+{% block sidebar %}
+  {% for module in manager.modules %}
+    {% if module.has_registered("sidebar") %}
+      {{ module.sidebar()|safe }}
+    {% else %}
+      <h3>{{ module.name }}</h3>
+      <ul>
+        <li><a href="{{ url_for("admin.list", manager=manager.name, module=module.name) }}">list</a></li>
+      </ul>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
+{% block content %}
+  {% for module in manager.modules %}
+    {% if module.has_registered("summary") %}
+      {{ module.summary()|safe }}
+    {% endif %}
+  {% endfor %}
+{% endblock %}

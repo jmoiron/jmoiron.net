@@ -5,19 +5,24 @@
 
 import datetime
 
+from flask import Blueprint
 from flaskext.login import LoginManager, UserMixin
 from micromongo import *
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 
+blueprint = Blueprint("auth", __name__,
+    template_folder="templates",
+    static_folder="static",
+)
 
 class User(Model, UserMixin):
-    collection = 'jmoiron.user'
+    collection = "jmoiron.user"
     spec = {
-        'username': Field(required=True),
-        'password': Field(required=True),
-        'email': Field(required=True),
+        "username": Field(required=True),
+        "password": Field(required=True),
+        "email": Field(required=True),
     }
 
     def get_id(self):
@@ -27,7 +32,7 @@ class User(Model, UserMixin):
 @login_manager.user_loader
 def user_loader(userid):
     try:
-        return User.find({'username': userid})[0]
+        return User.find({"username": userid})[0]
     except:
         return None
 

@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+
+{% block layout %}
+      <div class="container-fluid">
+        <div class="sidebar" id="sidebar">
+          {% block sidebar %}{% endblock %}
+        </div>
+        <div class="content" id="content">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+{% endblock %}

@@ -1,9 +1,13 @@
 {% extends "admin/base.html" %}
 
-{% block sidebar %}
-  Whee
-{% endblock %}
-
 {% block content %}
-  hello!
+  {# show the manager level summaries #}
+  {% for blueprint in admin_manager.blueprints %}
+    {% set app = blueprint.admin_manager %}
+    {% if app and app.has_registered("summary") %}
+      {{ app.summary()|safe }}
+      <div class="clearfix"></div>
+    {% endif %}
+  {% endfor %}
+
 {% endblock %}
