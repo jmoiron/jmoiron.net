@@ -23,7 +23,7 @@ def show_page(num):
     p.urlfunc = lambda num: url_for("blog.show_page", num=num)
     if not p.exists:
         abort(404)
-    posts = Post.latest()[p.slice()]
+    posts = Post.find({"is_published": True}).order_by("-timestamp")[p.slice()]
     return render_template("blog/index.html", posts=posts, page=p)
 
 @blog.route("/<slug>")

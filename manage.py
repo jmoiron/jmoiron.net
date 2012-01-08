@@ -46,6 +46,13 @@ def create_indexes():
 @script.command
 def migratedb(dumpfile=None):
     """Run a migration from an SQL database."""
+    # remove the flask-login context processor as it messes up rendering
+    # templates outside of a regular run-created context
+    from flaskext import login
+    procs = app.template_context_processors[None]
+    if login._user_context_processor in procs:
+        procs.remove(login._user_context_processor)
+
     print 'Flushing current mongo database...'
     flushdb()
     if dumpfile:
@@ -65,7 +72,7 @@ def migratedb(dumpfile=None):
     db['comment'].insert(comments['comments'])
     db['banned_ip'].insert(comments['bannedips'])
     print 'Resetting blog comments to use oids..'
-    from blog.models import Post
+    from jmoiron.blog.models import Post
     mapping = dict([(c['id'], c['_id']) for c in db.comment.find()])
     for post in Post.find({'comments': {'$ne': []}}):
         post.comments = [mapping[c] for c in post['comments']]
@@ -81,7 +88,7 @@ def migratedb(dumpfile=None):
 @script.command
 def rerender_entries(source_tag=None):
     """Rerender stream entries."""
-    from stream.models import Entry
+    from jmoiron.stream.models import Entry
     if source_tag:
         entries = Entry.find({'source_tag': source_tag})
     else:
