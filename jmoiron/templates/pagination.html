@@ -3,7 +3,7 @@
 {% macro show_paginator(page, show_next_prev=true) -%}
   <div class="pagination">
     {% if show_next_prev and page.has_prev %}
-      <span class="link prev"><a href="{{ page.link_for(page.number - 1) }}">« prev</a></span>
+      <span class="link prev"><a href="{{ page.url_for(page.number - 1) }}">« prev</a></span>
     {% endif %}
 
     {% for item in page.context() %}
@@ -12,12 +12,12 @@
       {% elif item == page.number %}
         <span class="current">{{ item }}</span>
       {% else %}
-        <span class="link"><a href="{{ page.link_for(item) }}">{{ item }}</a></span>
+        <span class="link"><a href="{{ page.url_for(item) }}">{{ item }}</a></span>
       {% endif %}
     {% endfor %}
 
     {% if show_next_prev and page.has_next %}
-    <span class="link next"><a href="{{ page.link_for(page.number + 1) }}">next »</a></span>
+    <span class="link next"><a href="{{ page.url_for(page.number + 1) }}">next »</a></span>
     {% endif %}
   </div>
 {%- endmacro %}

@@ -119,11 +119,11 @@ class Page(object):
         return page_context(self, window=self.window, total=self.num_pages,
                 inter=self.inter)
 
-    def link_for(self, page):
+    def url_for(self, page):
         """Return a link for a particular page, based on urlfunc if available,
         or just the page number if not."""
         if not self.urlfunc:
-            return '/%s' % page
+            return '?page=%s' % page
         return self.urlfunc(page)
 
 def make_window(center, size):

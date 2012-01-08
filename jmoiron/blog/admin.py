@@ -5,6 +5,7 @@
 
 from flask import *
 from flaskext.wtf import *
+from jmoiron.utils import Page
 from jmoiron.admin.models import Manager, Module
 
 from models import *
@@ -21,13 +22,20 @@ post = Module("post")
 
 @post.register("summary")
 def post_summary(count=8):
-    return post_list(count=8)
+    posts = Post.find().order_by("-timestamp")[:count]
+    module = post
+    title = "Blog posts"
+    subtitle = "latest first"
+    return render_template("blog/admin/post_summary.html", **locals())
 
 @post.register("list")
 def post_list(count=20):
-    posts = Post.find({"is_published": True}).order_by("-timestamp")[:count]
+    page = Page(int(request.args.get('page', 1)), count, Post.find().count())
+    posts = Post.find().order_by("-timestamp")[page.slice()]
     module = post
-    return render_template("blog/admin/post_summary.html", **locals())
+    title = "Blog posts"
+    subtitle = "latest first"
+    return render_template("blog/admin/post_list.html", **locals())
 
 admin.add_module(post)
 

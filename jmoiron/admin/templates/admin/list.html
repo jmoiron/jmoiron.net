@@ -1,6 +1,12 @@
 <div class="admin-list">
 {% block title %}
-<h2>{{ title }}{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</h2>
+<h2>
+  {{ title }}
+  {% if subtitle %}<small>{{ subtitle }}</small>{% endif %}
+  <div class="pull-right">
+    <a href="{{ url_for("admin.add", manager=module.manager.name, module=module.name) }}" class="btn success">+ Add</a>
+  </div>
+</h2>
 {% endblock %}
 
 <form id="{{ module.name }}-summary" method="POST" action="{{ url_for("admin.delete", manager=module.manager.name, module=module.name) }}">
@@ -18,11 +24,24 @@
 
 {% block footer %}
 <div class="pull-right">
-  <a class="btn full-list" href="{{ url_for("admin.list", manager=module.manager.name, module=module.name) }}">List</a>
-  <a href="{{ url_for("admin.add", manager=module.manager.name, module=module.name) }}" class="btn success">+ Add</a>
   <button type="submit" class="btn danger">- Delete</button>
 </div>
+{% block pagination %}
+<div class="pagination pull-left">
+  <ul>
+    <li class="prev {% if not page.has_prev %}disabled{% endif %}"><a href="{% if page.has_prev %}{{ page.url_for(page.number-1) }}{% else %}#{% endif %}">&larr; Prev</a></li>
+    {% for num in page.context() %}
+      {% if num == page.inter %}
+        <li class="disabled"><a href="#">{{ num }}</a></li>
+      {% else %}
+        <li{% if page.number == num %} class="active"{% endif %}><a href="{{ page.url_for(num) }}">{{ num }}</a></li>
+      {% endif %}
+    {% endfor %}
+    <li class="prev {% if not page.has_next %}disabled{% endif %}"><a href="{% if page.has_next %}{{ page.url_for(page.number+1) }}{% else %}#{% endif %}">Next &rarr;</a></li>
+  </ul>
+</div>
+{% endblock %}
 {% endblock %}
 </form>
-
 </div>
+

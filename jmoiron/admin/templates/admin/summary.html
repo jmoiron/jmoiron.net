@@ -1,0 +1,34 @@
+{% import "admin/forms.html" as forms without context %}
+
+{% if not manager %}
+  {% set manager = module.manager %}
+{% endif %}
+
+<div class="admin-summary">
+{% block title %}
+<h2>{{ title }}{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</h2>
+{% endblock %}
+
+<form id="{{ module.name }}-summary" method="POST" action="{{ url_for("admin.delete", manager=module.manager.name, module=module.name) }}">
+
+<table {% block table_style %}class="zebra-striped bordered-table condensed-table"{% endblock %}>
+  <thead>
+    <tr>
+      {% block table_header %}{% endblock %}
+    </tr>
+  </thead>
+  <tbody>
+  {% block table_body %}{% endblock %}
+</tbody>
+</table>
+
+{% block footer %}
+<div class="pull-right">
+  <a class="btn full-list" href="{{ url_for("admin.list", manager=module.manager.name, module=module.name) }}">List</a>
+  <a href="{{ url_for("admin.add", manager=module.manager.name, module=module.name) }}" class="btn success">+ Add</a>
+  <button type="submit" class="btn danger">- Delete</button>
+</div>
+{% endblock %}
+</form>
+
+</div>

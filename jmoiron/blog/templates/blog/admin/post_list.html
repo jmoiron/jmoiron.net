@@ -1,7 +1,6 @@
-{% extends "admin/summary.html" %}
+{% extends "admin/paginated_list.html" %}
 
-{# macros #}
-{%- macro table_header() -%}
+{% block table_header %}
     <tr>
       <th><span class="label important">x</span></th>
       <th>#</th>
@@ -9,9 +8,9 @@
       <th>date</th>
       <th># comments</th>
     </tr>
-{%- endmacro -%}
+{% endblock %}
 
-{%- macro table_body(posts) -%}
+{% block table_body %}
   {% for post in posts %}
     <tr>
       <td><input type="checkbox" name="{{ post.id }}"></td>
@@ -21,13 +20,5 @@
       <td>{{ post.comments|length }}</td>
     </tr>
   {% endfor %}
-{%- endmacro -%}
-
-{% block table_header %}
-  {{ table_header() }}
-{% endblock %}
-
-{% block table_body %}
-  {{ table_body(posts) }}
 {% endblock %}
 

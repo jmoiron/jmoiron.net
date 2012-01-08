@@ -1,0 +1,77 @@
+{# admin forms library 
+
+  These are utility methods for using WTForms fields with twitter's
+  bootstrap library.  Some of the ideas taken from this gist:
+
+  https://gist.github.com/1284631
+#}
+
+{%- macro label(field) -%}
+  <label for="{{field.id}}">{{ field.label.text }}
+  {% if field.flags.required %}
+    <abbr title="This field is required">*</abbr>
+  {% endif %}</label>
+{%- endmacro -%}
+
+{%- macro description(field) -%}
+  {% if field.description %}
+    <span class="descr">{{ field.description }}</span>
+  {% endif %}
+{%- endmacro -%}
+
+{%- macro errors(field) -%}
+  {% if field.errors %}
+  <div>
+    {%- for error in field.errors -%}
+    <span class="label important">{{ error }}</span>
+    {%- endfor %}
+  </div>
+  {% endif %}
+{%- endmacro -%}
+
+{%- macro boolean_field(field) -%}
+  <div class="input">
+    <label>{{ field() }}
+      <span>{{ field.label.text }}</span>
+      {{ description(field) }}
+      {{ errors(field) }}
+    </label>
+  </div>
+{%- endmacro -%}
+
+{%- macro form_field(field) -%}
+  <div class="clearfix">
+  {% if field.type == "HiddenField" %}
+    {{ field() }}
+  {% else %}
+    {% if field.type == "BooleanField" %}
+      {{ boolean_field(field) }}
+    {% else %}
+      {{ label(field) }}
+      <div class="input" id="{{field.id}}-div">
+        {% if field.type == "RadioField" %}
+          {{ field(class="radio-group") }}
+        {% else %}
+          {{ field() }}
+        {% endif %}
+        {{ description(field) }}
+        {{ errors(field) }}
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+{%- endmacro -%}
+
+{%- macro form_fields(fields, class=None, legend=None) -%}
+  <fieldset {% if class %}class="{{class}}"{% endif %}>
+    {% if legend%}<legend>{{ legend }}</legend>{% endif %}
+    {% for field in fields %}
+      {% if field.type == "HiddenField" %}
+        {{ field() }}
+      {% else %}
+        {{ form_field(field) }}
+      {% endif %}
+    {% endfor %}
+  </fieldset>
+{%- endmacro -%}
+
