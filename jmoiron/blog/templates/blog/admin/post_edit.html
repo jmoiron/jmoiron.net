@@ -1,11 +1,7 @@
-{% extends "admin/base.html" %}
+{% extends "admin/module_edit.html" %}
 
 {% block content %}
-
-
-  {% if post.comments %}
-
-  {% endif %}
+  {{ content|safe }}
 {% endblock %}
 
 

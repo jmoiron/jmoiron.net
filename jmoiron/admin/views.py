@@ -50,7 +50,18 @@ def add(manager, module):
 @admin.route("/<manager>/<module>/edit/<id>/", methods=("GET", "POST"))
 @login_required
 def edit(manager, module, id):
-    abort(404)
+    try:
+        manager_obj = admin_manager.blueprint_map[manager].admin_manager
+        module_obj = manager_obj.modmap[module]
+    except (KeyError, AttributeError):
+        abort(404)
+
+    content = module_obj.edit(id)
+    return render_template("admin/module_edit.html",
+        admin_manager=admin_manager,
+        manager=manager_obj,
+        module=module_obj,
+        content=content)
 
 @admin.route("/<manager>/<module>/delete/", methods=("POST",))
 @login_required

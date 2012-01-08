@@ -6,7 +6,7 @@
 
 <div class="admin-summary">
 {% block title %}
-<h2>{{ title }}{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</h2>
+<h2>{{ title }}{% if subtitle %} <small>{{ subtitle }}</small>{% endif %}</h2>
 {% endblock %}
 
 <form id="{{ module.name }}-summary" method="POST" action="{{ url_for("admin.delete", manager=module.manager.name, module=module.name) }}">

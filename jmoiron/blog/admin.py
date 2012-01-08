@@ -37,6 +37,13 @@ def post_list(count=20):
     subtitle = "latest first"
     return render_template("blog/admin/post_list.html", **locals())
 
+@post.register("edit")
+def post_edit(id):
+    post = Post.find_one({"id": int(id)})
+    if not post:
+        abort(404)
+    return render_template("blog/admin/post_edit.html", **locals())
+
 admin.add_module(post)
 
 
