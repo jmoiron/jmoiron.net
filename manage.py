@@ -4,9 +4,23 @@
 """jmoiron.net script/commands"""
 
 from flaskext.script import Manager
+from glob import glob
+
+from misc import migrate
 from jmoiron.app import app, db
 
 script = Manager(app)
+
+@script.command
+def loadsql(dumpfile=None):
+    """Reload the SQL database."""
+    if dumpfile is None:
+        try:
+            dumpfile = glob("*.sql")[-1]
+        except:
+            print "Could not find a dumpfile (*.sql) in CWD."
+            return
+    migrate.loaddb(dumpfile)
 
 @script.command
 def flushdb():
@@ -32,7 +46,6 @@ def create_indexes():
 @script.command
 def migratedb(dumpfile=None):
     """Run a migration from an SQL database."""
-    from misc import migrate
     print 'Flushing current mongo database...'
     flushdb()
     if dumpfile:

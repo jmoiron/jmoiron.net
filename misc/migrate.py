@@ -10,14 +10,14 @@ from fabric.api import local, hide
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
 
-db = connect(database='jmoiron_net')
+DATABASE_NAME = "jmoiron"
 
-def loaddb(filename, db='jmoiron_net'):
-    with hide('running', 'stdout', 'stderr'):
-        def psql(string):
-            local('echo "%s" | psql -d postgres' % string)
-        psql("DROP DATABASE %s" % db)
-        local('psql -d postgres < %s' % (filename))
+# db = connect(database=DATABASE_NAME)
+
+def loaddb(filename, db=DATABASE_NAME):
+    local("echo \"DROP DATABASE %s\" | psql -d postgres" % (db), capture=True)
+    local("createdb %s" % db)
+    local('psql -d %s < %s' % (db, filename), capture=True)
 
 def typemap(val):
     """Provide type mapping between values that psycopg2 return to us
@@ -32,6 +32,7 @@ def typemap(val):
     raise Exception("What is this?: %r" % val)
 
 def read_table(table):
+    db = connect(database=DATABASE_NAME)
     cursor = db.cursor(cursor_factory=RealDictCursor)
     cursor.execute("SELECT * FROM %s;" % table)
     rows = list(cursor)

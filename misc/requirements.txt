@@ -1,4 +1,8 @@
+# pip-requirements file
+
+# backup and migration requirements
 Fabric
+psycopg2
 # flask stuff
 Flask
 Flask-Script
