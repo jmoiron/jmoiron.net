@@ -15,6 +15,7 @@
   {% block table_body %}{% endblock %}
 </tbody>
 </table>
+
 {% block footer %}
 <div class="pull-right">
   <a class="btn full-list" href="{{ url_for("admin.list", manager=module.manager.name, module=module.name) }}">List</a>

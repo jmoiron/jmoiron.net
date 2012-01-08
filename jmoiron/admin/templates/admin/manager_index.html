@@ -14,9 +14,9 @@
 {% endblock %}
 
 {% block content %}
-  {% for module in manager.modules %}
+  {% for module in manager.modules -%}
     {% if module.has_registered("summary") %}
       {{ module.summary()|safe }}
     {% endif %}
-  {% endfor %}
+  {%- endfor %}
 {% endblock %}

@@ -1,6 +1,10 @@
 @import "lib/bootstrap.less";
 @siteWidth: 800px; 
 
+body {
+  padding-bottom: 1em;
+}
+
 .container-fluid {
   min-width: @siteWidth;
 }
@@ -15,5 +19,9 @@
 
 #body { margin-top: 50px; }
 #header { }
-#sidebar { border-right: 1px solid #eee; width: 120px; }
-#content { margin-left: 140px; }
+#sidebar { border-right: 1px solid #eee; }
+
+.container-fluid {
+  .content { margin-left: 140px; }
+  .sidebar { width: 120px; }
+}
