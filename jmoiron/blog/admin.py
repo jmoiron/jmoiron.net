@@ -5,10 +5,13 @@
 
 from flask import *
 from flaskext.wtf import *
+from werkzeug import MultiDict
+
 from jmoiron.utils import Page
 from jmoiron.admin.models import Manager, Module
 
 from models import *
+from forms import *
 
 admin = Manager(blueprint)
 
@@ -42,6 +45,8 @@ def post_edit(id):
     post = Post.find_one({"id": int(id)})
     if not post:
         abort(404)
+    import ipdb; ipdb.set_trace();
+    form = PostForm(MultiDict(post.items()))
     return render_template("blog/admin/post_edit.html", **locals())
 
 admin.add_module(post)

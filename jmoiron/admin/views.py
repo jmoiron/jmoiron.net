@@ -26,7 +26,13 @@ def manager(manager):
         manager_obj = admin_manager.blueprint_map[manager].admin_manager
     except (KeyError, AttributeError):
         abort(404)
-    return render_template("admin/manager_index.html",
+
+    if not len(manager_obj.modules):
+        abort(404)
+    if len(manager_obj.modules) == 1:
+        return redirect(url_for("admin.list", manager=manager, module=manager_obj.modules[0].name))
+
+    return render_template("admin/manager/index.html",
         admin_manager=admin_manager,
         manager=manager_obj)
 
@@ -38,9 +44,13 @@ def list(manager, module):
         module_obj = manager_obj.modmap[module]
     except (KeyError, AttributeError):
         abort(404)
-    return render_template("admin/module_index.html",
+
+    content = module_obj.list()
+    return render_template("admin/module/index.html",
         admin_manager=admin_manager,
-        manager=manager_obj, module=module_obj)
+        manager=manager_obj,
+        module=module_obj,
+        content=content)
 
 @admin.route("/<manager>/<module>/add/", methods=("GET", "POST"))
 @login_required
@@ -57,7 +67,7 @@ def edit(manager, module, id):
         abort(404)
 
     content = module_obj.edit(id)
-    return render_template("admin/module_edit.html",
+    return render_template("admin/module/edit.html",
         admin_manager=admin_manager,
         manager=manager_obj,
         module=module_obj,

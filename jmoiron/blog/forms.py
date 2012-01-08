@@ -10,7 +10,7 @@ class PostForm(Form):
     is_published = BooleanField('Publish?')
     timestamp = TextField('Timestamp')
     body = TextAreaField('Body', [validators.required])
-    tags = SelectMultipleField('Tags')
+    #tags = SelectMultipleField('Tags')
     summary = TextAreaField('Summary')
 
 

@@ -1,7 +1,7 @@
-{% extends "admin/module_edit.html" %}
-
-{% block content %}
-  {{ content|safe }}
-{% endblock %}
 
 
+{% import "admin/forms.html" as forms without context %}
+
+<form>
+{{ forms.form_fields(form._fields.values()) }}
+</form>
