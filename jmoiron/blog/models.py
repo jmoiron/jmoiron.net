@@ -27,6 +27,7 @@ class Post(Model):
         "body": Field(required=True, default=""),
         "tags": Field(required=True, default=[]),
         "comments": Field(required=True, default=[]),
+        "enable_comments": Field(default=True, type=bool),
         "is_published": Field(required=True, default=False, type=bool),
         "summary": Field(),
         "id": Field(required=True, type=int),

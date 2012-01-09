@@ -5,6 +5,12 @@ body {
   padding-bottom: 1em;
 }
 
+.input-boolean {
+  .input-append;
+  .add-on { .border-radius(3px); }
+  .active { background: lighten(@green, 30); border-color: @green; }
+}
+
 .container-fluid {
   min-width: @siteWidth;
 }
@@ -21,6 +27,11 @@ input, textarea, select {
   h2 { margin-bottom: 0.25em; }
 }
 
+label.required {
+  color: #222;
+  font-weight: bold;
+}
+
 #body { margin-top: 50px; }
 #header { }
 #sidebar { border-right: 1px solid #eee; }
@@ -32,4 +43,25 @@ input, textarea, select {
 
 .content .pagination {
   margin-top: 0;
+}
+
+textarea {
+  &.maximum {
+    width: 100%;
+    height: 300px;
+  }
+  &.medium {
+    width: 70%;
+    height: 100px;
+  }
+}
+
+.label {
+  &.notice { text-shadow: @blue 1px 1px 1px; }
+  &.important { text-shadow: @red 1px 1px 1px; }
+  &.new { text-shadow: @green 1px 1px 1px; }
+  &.big {
+    font-size: 12px;
+    padding: 3px 5px;
+  }
 }

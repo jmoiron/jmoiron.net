@@ -7,10 +7,7 @@
 #}
 
 {%- macro label(field) -%}
-  <label for="{{field.id}}">{{ field.label.text }}
-  {% if field.flags.required %}
-    <abbr title="This field is required">*</abbr>
-  {% endif %}</label>
+  <label for="{{field.id}}" {% if field.flags.required %}class="required"{% endif %}>{{ field.label.text }}</label>
 {%- endmacro -%}
 
 {%- macro description(field) -%}
@@ -29,7 +26,7 @@
   {% endif %}
 {%- endmacro -%}
 
-{%- macro boolean_field(field) -%}
+{%- macro inline_boolean_field(field) -%}
   <div class="input">
     <label>{{ field() }}
       <span>{{ field.label.text }}</span>
@@ -39,12 +36,21 @@
   </div>
 {%- endmacro -%}
 
-{%- macro form_field(field) -%}
+{%- macro boolean_field(field) -%}
+  {{ label(field) }}
+  <div class="input input-boolean" id="{{ field.id }}-div">
+    <label class="add-on active">{{ field() }}</label>
+  </div>
+{%- endmacro -%}
+
+{%- macro form_field(field, class=none, inline_booleans=false) -%}
   <div class="clearfix">
   {% if field.type == "HiddenField" %}
     {{ field() }}
   {% else %}
-    {% if field.type == "BooleanField" %}
+    {% if field.type == "BooleanField" and inline_booleans %}
+      {{ inline_boolean_field(field) }}
+    {% elif field.type == "BooleanField" %}
       {{ boolean_field(field) }}
     {% else %}
       {{ label(field) }}
@@ -52,7 +58,7 @@
         {% if field.type == "RadioField" %}
           {{ field(class="radio-group") }}
         {% else %}
-          {{ field() }}
+          {{ field(class=class) }}
         {% endif %}
         {{ description(field) }}
         {{ errors(field) }}

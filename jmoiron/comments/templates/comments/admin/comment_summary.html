@@ -4,16 +4,16 @@
 <h2>Latest comments <small>most recent first</small></h2>
 {% endblock %}
 
-{% block table_header %}
+{%- macro table_header() -%}
   <th><span class="label important">x</span></th>
   <th>name</th>
   <th>url</th>
   <th>ip</th>
   <th>date</th>
   <th>spam</th>
-{% endblock %}
+{%- endmacro -%}
 
-{% block table_body %}
+{%- macro table_body(comments) -%}
   {% for comment in comments %}
     <tr>
       <td><input type="checkbox" name="{{ comment.id }}"></td>
@@ -27,5 +27,13 @@
       </td>
     </tr>
   {% endfor %}
+{%- endmacro -%}
+
+{% block table_header %}
+  {{ table_header() }}
+{% endblock %}
+
+{% block table_body %}
+  {{ table_body(comments) }}
 {% endblock %}
 

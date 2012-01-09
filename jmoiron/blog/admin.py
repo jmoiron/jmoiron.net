@@ -42,12 +42,15 @@ def post_list(count=20):
 
 @post.register("edit")
 def post_edit(id):
-    post = Post.find_one({"id": int(id)})
+    module = post
+    post_obj = Post.find_one({"id": int(id)})
+    post_obj.load_comments()
     if not post:
         abort(404)
-    import ipdb; ipdb.set_trace();
-    form = PostForm(MultiDict(post.items()))
-    return render_template("blog/admin/post_edit.html", **locals())
+    form = PostForm(MultiDict(post_obj.items()))
+    ctx = locals()
+    ctx['post'] = post_obj
+    return render_template("blog/admin/post_edit.html", **ctx)
 
 admin.add_module(post)
 
