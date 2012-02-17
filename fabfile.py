@@ -6,6 +6,7 @@
 from datetime import datetime
 from fabric.api import *
 
+from os import environ
 LOCAL_DATABASE_NAME = "jmoiron"
 
 env.hosts = ["jmoiron.net"]
@@ -24,9 +25,15 @@ def fetch_db(db="jmoiron_net"):
     # remove it if it already exists
     local("rm -f %s.%s.sql" % (db, timestamp))
     local("gzip -d %s.%s.sql.gz" % (db, timestamp))
-    local("sed -i 's/^CREATE DATABASE/-- CREATE DATABASE/' %s.%s.sql" % (db, timestamp))
-    local("sed -i 's/^ALTER DATABASE/-- ALTER DATABASE/' %s.%s.sql" % (db, timestamp))
-    local(r"sed -i 's/^\\connect/-- \\connect/' %s.%s.sql" % (db, timestamp))
+    if environ["OS"] == "OSX":
+        # OSX has a shitty bsd sed which works differently
+        local("sed -i '' 's/^CREATE DATABASE/-- CREATE DATABASE/' %s.%s.sql" % (db, timestamp))
+        local("sed -i '' 's/^ALTER DATABASE/-- ALTER DATABASE/' %s.%s.sql" % (db, timestamp))
+        local(r"sed -i '' 's/^\\connect/-- \\connect/' %s.%s.sql" % (db, timestamp))
+    else:
+        local("sed -i 's/^CREATE DATABASE/-- CREATE DATABASE/' %s.%s.sql" % (db, timestamp))
+        local("sed -i 's/^ALTER DATABASE/-- ALTER DATABASE/' %s.%s.sql" % (db, timestamp))
+        local(r"sed -i 's/^\\connect/-- \\connect/' %s.%s.sql" % (db, timestamp))
 
 
 
