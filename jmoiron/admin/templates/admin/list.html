@@ -4,14 +4,14 @@
   {{ title }}
   {% if subtitle %}<small>{{ subtitle }}</small>{% endif %}
   <div class="pull-right">
-    <a href="{{ url_for("admin.add", manager=module.manager.name, module=module.name) }}" class="btn success">+ Add</a>
+    <a href="{{ url_for("admin.add", manager=module.manager.name, module=module.name) }}" class="btn btn-success">+ Add</a>
   </div>
 </h2>
 {% endblock %}
 
 <form id="{{ module.name }}-summary" method="POST" action="{{ url_for("admin.delete", manager=module.manager.name, module=module.name) }}">
 
-<table {% block table_style %}class="zebra-striped bordered-table condensed-table"{% endblock %}>
+<table {% block table_style %}class="table table-striped table-bordered table-condensed"{% endblock %}>
   <thead>
     <tr>
       {% block table_header %}{% endblock %}
@@ -24,7 +24,7 @@
 
 {% block footer %}
 <div class="pull-right">
-  <button type="submit" class="btn danger">- Delete</button>
+  <button type="submit" class="btn btn-danger">- Delete</button>
 </div>
 {% block pagination %}
 <div class="pagination pull-left">
