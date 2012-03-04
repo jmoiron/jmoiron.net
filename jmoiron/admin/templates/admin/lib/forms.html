@@ -1,0 +1,19 @@
+
+{# show a boolean label (x or checkmark) #}
+{% macro boolean_label(condition) -%}
+  <span class="label label-{{ "success" if condition else "important" }}">
+    {% if condition %}<i class="icon-check icon-white"></i>
+    {% else %}<i class="icon-remove icon-white"></i>{% endif %}
+  </span>
+{%- endmacro %}
+
+{% macro checkbox(name) -%}
+    <input type="checkbox" name="{{ name|escape }}">
+{%- endmacro %}
+
+{# a simple form macro designed to be used with "call" #}
+{% macro form(id="", action="", class="", method="POST") -%}
+<form id="{{ id }}" action="{{ action }}" {% if class %}class="{{ class }}"{% endif %} method="{{ method }}">
+    {{ caller() }}
+  </form>
+{%- endmacro %}

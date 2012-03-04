@@ -1,0 +1,32 @@
+{% import "admin/lib/widgets.html" as widgets without context %}
+{% import "admin/lib/forms.html" as forms without context %}
+
+{%- macro header() -%}
+  <th>#</th>
+  <th>name</th>
+  <th>url</th>
+  <th>ip</th>
+  <th>date</th>
+  <th>spam</th>
+{%- endmacro -%}
+
+{%- macro row(comment) -%}
+  <td><a href="{{ url_for("admin.edit", manager="comments", module="comment", id=comment.id) }}">{{ comment.id }}</a></td>
+  <td><a href="mailto:{{comment.email}}">{{ comment.name }}</a></td>
+  <td><a href="{{ comment.url }}">{{ comment.url|truncate(40,killwords=true) }}</a></td>
+  <td>{{ comment.ip_address }}</td>
+  <td>{{ comment.timestamp|pdt }}</td>
+  <td class="centered">{{ forms.boolean_label(not comment.needs_moderation) }}</td></td>
+{%- endmacro -%}
+
+{% macro comment_list(comments, page=none) %}
+  {{ widgets.list(comments, module="comments", manager="comment", header_macro=header,
+      row_macro=row, show_add=true, page=page) }}
+{% endmacro %}
+
+{% if comments %}
+  {% call widgets.admin_list() %}
+    {{ comment_list(comments, page=page) }}
+  {% endcall %}
+{% endif %}
+

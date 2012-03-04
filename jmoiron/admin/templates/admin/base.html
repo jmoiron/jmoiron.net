@@ -4,7 +4,11 @@
     {% set title = title or "admin" %}
     <title>{{ title }}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% if config.OFFLINE_MODE %}
+
+    {% else %}
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    {% endif %}
     {% if config.DEBUG -%}
     <!-- debug mode less/js combo -->
     <link media="screen" rel="stylesheet/less" type="text/css" href="{{ url_for('admin.static', filename='css/admin.less') }}">

@@ -1,39 +1,7 @@
-{% extends "admin/summary.html" %}
+{% import "comments/admin/comment_list.html" as comment without context %}
+{% import "admin/lib/widgets.html" as widgets without context %}
 
-{% block title %}
-<h2>Latest comments <small>most recent first</small></h2>
-{% endblock %}
-
-{%- macro table_header() -%}
-  <th><span class="label label-important">x</span></th>
-  <th>name</th>
-  <th>url</th>
-  <th>ip</th>
-  <th>date</th>
-  <th>spam</th>
-{%- endmacro -%}
-
-{%- macro table_body(comments) -%}
-  {% for comment in comments %}
-    <tr>
-      <td><input type="checkbox" name="{{ comment.id }}"></td>
-      <td><a href="mailto:{{comment.email}}">{{ comment.name }}</a></td>
-      <td><a href="{{ comment.url }}">{{ comment.url|truncate(25,killwords=true) }}</a></td>
-      <td>{{ comment.ip_address }}</td>
-      <td><a href="{{ url_for("admin.edit", manager="comments", module="comment", id=comment.id) }}">{{ comment.timestamp|pdt }}</a></td>
-      <td>
-        {% if comment.needs_moderation %}<span class="label label-important">x</span>
-        {% else %}<span class="label label-success">&#x2713;</span>{% endif %}
-      </td>
-    </tr>
-  {% endfor %}
-{%- endmacro -%}
-
-{% block table_header %}
-  {{ table_header() }}
-{% endblock %}
-
-{% block table_body %}
-  {{ table_body(comments) }}
-{% endblock %}
-
+{% call widgets.admin_summary() %}
+  <h2>Latest comments <small>most recent first, <a href="{{ url_for("admin.list", manager="comments", module="comment") }}">all</a></h2>
+  {{ comment.comment_list(comments) }}
+{% endcall %}

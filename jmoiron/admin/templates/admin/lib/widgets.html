@@ -1,0 +1,87 @@
+{% import "admin/lib/forms.html" as forms without context %}
+{% import "admin/lib/tables.html" as tables without context %}
+{% from "admin/lib/utils.html" import empty without context %}
+
+{#
+  A basic list macro which shows a list of items in a table with highly
+  customizable rows and headings.  Much of the customization is done by
+  passing macros to this function.
+#}
+{% macro list(items, module="", manager="", page=none, delete_column=true, 
+    show_add=true, show_list=true, table_class="", header_class="", body_class="",
+    row_class="", header_macro=empty, row_macro=empty) -%}
+
+    {% macro body() %}
+    <table class="{{ table_class or "table table-bordered table-condensed table-striped"}}">
+      <thead {% if header_class %}class="{{ header_class }}"{% endif %}>
+        <tr>
+          {% if delete_column %}
+          <th class="centered">{{ forms.boolean_label(false) }}</th>
+          {% endif %}
+          {{ header_macro() }}
+        </tr>
+      </thead>
+      <tbody {% if body_class %}class="{{ body_class }}"{% endif %}>
+        {% for item in items %}
+        <tr>
+          {% if delete_column %}
+          <td class="centered"><input type="checkbox" name="{{ item.id }}"></td>
+          {% endif %}
+          {{ row_macro(item) }}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endmacro %}
+
+    {% if delete_column %}
+      {% call forms.form(action=url_for("admin.delete", module=module, manager=manager), id="%s-%s-delete" % (module, manager)) %}
+        {{ body() }}
+        <div class="pull-right">
+          {% if show_add %}
+          <a href="{{ url_for("admin.add", module=module, manager=manager) }}" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Add</a>
+          {% endif %}
+          <button type="submit" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button>
+        </div>
+        {% if page %}
+          {{ paginator(page, "pull-left") }}
+        {% endif %}
+      {% endcall %}
+    {% else %}
+      {{ body() }}
+    {% endif %}
+
+{% endmacro %}
+
+{% macro paginator(page, extra_class="") %}
+  <div class="pagination {{ extra_class}}">
+    <ul>
+      <li class="prev {% if not page.has_prev %}disabled{% endif %}"><a href="{% if page.has_prev %}{{ page.url_for(page.number-1) }}{% else %}#{% endif %}">&larr; Prev</a></li>
+      {% for num in page.context() %}
+        {% if num == page.inter %}
+          <li class="disabled"><a href="#">{{ num }}</a></li>
+        {% else %}
+          <li{% if page.number == num %} class="active"{% endif %}><a href="{{ page.url_for(num) }}">{{ num }}</a></li>
+        {% endif %}
+      {% endfor %}
+      <li class="prev {% if not page.has_next %}disabled{% endif %}"><a href="{% if page.has_next %}{{ page.url_for(page.number+1) }}{% else %}#{% endif %}">Next &rarr;</a></li>
+    </ul>
+  </div>
+{% endmacro %}
+
+{#
+  A basic admin section, with admin classes and clear fixes.
+#}
+{% macro admin_summary() %}
+  <div class="admin-summary">
+    {{ caller() }}
+  </div>
+  <div class="clearfix"></div>
+{% endmacro %}
+
+{% macro admin_list() %}
+  <div class="admin-list">
+    {{ caller() }}
+  </div>
+  <div class="clearfix"></div>
+{% endmacro %}
