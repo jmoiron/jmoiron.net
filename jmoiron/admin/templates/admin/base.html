@@ -9,7 +9,7 @@
     {% else %}
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     {% endif %}
-    {% if config.DEBUG -%}
+    {% if config.USE_LESS -%}
     <!-- debug mode less/js combo -->
     <link media="screen" rel="stylesheet/less" type="text/css" href="{{ url_for('admin.static', filename='css/admin.less') }}">
     <script type="text/javascript" src="{{ url_for('admin.static', filename='js/less.js') }}"></script>

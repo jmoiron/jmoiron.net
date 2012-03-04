@@ -1,4 +1,5 @@
 {% import "admin/forms.html" as forms without context %}
+{% import "comments/admin/comment_list.html" as comment_list without context %}
 
 {% set manager = module.manager %}
 {% macro post_link(post) -%}
@@ -6,66 +7,27 @@
 {%- endmacro %}
 
 <div class="page-header">
-  <h2>Editing {{ post_link(post) }} <small>id {{ post.id }}</small></h2>
+  <h2>Editing {{ post_link(post) }} <small>#{{ post.id }}</small></h2>
 </div>
-<form id="post-add" method="POST" action="{{ url_for("admin.add", manager=manager.name, module=module.name) }}">
-  <fieldset>
-    <legend>Title</legend>
-    {{ forms.form_field(form.title, class="xlarge") }}
-    {{ forms.form_field(form.slug, class="xlarge") }}
-  <fieldset>
-    <legend>Content</legend>
-    {{ forms.form_field(form.body, class="maximum") }}
-    {{ forms.form_field(form.summary, class="medium") }}
-  </fieldset>
-  <fieldset>
-    <legend>Tags</legend>
-    <div class="input">
+<form class="form form-horizontal" id="post-add" method="POST" action="{{ url_for("admin.add", manager=manager.name, module=module.name) }}">
+  {{ forms.form_field(form.title, class="xlarge") }}
+  {{ forms.form_field(form.slug, class="xlarge") }}
+  {{ forms.form_field(form.body, class="maximum") }}
+  {{ forms.form_field(form.summary, class="medium") }}
+  {{ forms.form_field(form.is_published) }}
+  {{ forms.form_field(form.enable_comments) }}
+  <div class="control-group clearfix">
+    <label class="control-label">Tags</label>
+    <div class="controls labels">
     {% for tag in post.tags %}
-      <span class="label notice big">{{ tag }}</span>
+      <span class="label label-info big">{{ tag }}</span>
     {% endfor %}
     </div>
-  </fieldset>
-  </fieldset>
-  <fieldset>
-    <legend>Options</legend>
-    {{ forms.form_field(form.is_published) }}
-    {{ forms.form_field(form.enable_comments) }}
-  <fieldset>
+  </div>
 </form>
 
 <div class="page-header">
   <h3>{{ post.comments|length }} Comments on {{ post_link(post) }}</h3>
 </div>
-<form method="POST" action="{{ url_for("admin.delete", manager="comments", module="comment") }}">
-<fieldset>
-<table class="zebra-striped bordered-table condensed-table">
-  <thead>
-    <th><span class="label important">x</span></th>
-    <th>name</th>
-    <th>url</th>
-    <th>ip</th>
-    <th>date</th>
-    <th>spam</th>
-  </thead>
-  <tbody>
-    {% for comment in post.comments %}
-    <tr>
-      <td><input type="checkbox" name="{{ comment.id }}"></td>
-      <td><a href="mailto:{{comment.email}}">{{ comment.name }}</a></td>
-      <td><a href="{{ comment.url }}">{{ comment.url|truncate(25) }}</a></td>
-      <td>{{ comment.ip_address }}</td>
-      <td>{{ comment.timestamp|pdt }}</td>
-      <td>
-        {% if comment.needs_moderation %}<span class="label important">x</span>
-        {% else %}<span class="label success">&#x2713;</span>{% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<div class="pull-right">
-  <button type="submit" class="btn danger">- Delete</button>
-</div>
-</fieldset>
-</form>
+
+{{ comment_list.comment_list(post.comments) }}
