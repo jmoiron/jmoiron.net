@@ -15,24 +15,22 @@
     {%- block head -%}{%- endblock %}
   </head>
   <body>
-    <div class="topbar-wrapper">
-      <div class="topbar">
-        <div class="topbar-inner">
-          <div class="container-fluid">
-            <a class="brand" href="{{ url_for("admin.index") }}">{{ title }}</a>
-            <ul class="nav">
-              {% for app in admin_manager.blueprints -%}
-              <li {% if manager and manager.blueprint == app %}class="active"{% endif %}>
-                <a href="{{ url_for('admin.manager', manager=app.name) }}">{{ app.name }}</a>
-              </li>
-              {%- endfor %}
-            </ul>
-            <p class="pull-right">
-              logged in as <a href="#">{{ current_user.username }}</a>
-            </p>
-          </div>
-  
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="{{ url_for("admin.index") }}">{{ title }}</a>
+          <ul class="nav">
+            {% for app in admin_manager.blueprints -%}
+            <li {% if manager and manager.blueprint == app %}class="active"{% endif %}>
+              <a href="{{ url_for('admin.manager', manager=app.name) }}">{{ app.name }}</a>
+            </li>
+            {%- endfor %}
+          </ul>
+          <p class="nav pull-right logged-in-as">
+            logged in as <a href="#">{{ current_user.username }}</a>
+          <p>
         </div>
+
       </div>
     </div>
     <div class="container" id="body">
