@@ -3,14 +3,20 @@
  * uses bootstrap.less : http://markdotto.com/bootstrap/
  */
 
-@import "bootstrap.less";
-
+@import "bootstrap/bootstrap.less";
+    
 /* -- reset -- */
 * { margin: 0; padding: 0; font-size: 1em; 
   text-decoration: none; border: none;
   list-style: none; outline: none; }
 
-.vollkorn() { font-family: "Vollkorn", @font-serif; }
+.serif(@weight: normal, @size: 100%) {
+  font-family: Georgia, "Palatino", "Hoefler Text", serif;
+  font-weight: @weight;
+  font-size: @size;
+}
+.vollkorn() { font-family: "Vollkorn" }
+
 
 @ltgray: #eee;
 @dkgray: #111;

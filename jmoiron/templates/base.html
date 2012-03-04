@@ -3,8 +3,13 @@
   <head>
     <title>{% if title %}{{ title }}{% else %}jmoiron.net{% endif %}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% if config.OFFLINE_MODE %}
+    <link href="{{ url_for('static', filename='css/Vollkorn.css') }}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    {% else %}
     <link href="http://fonts.googleapis.com/css?family=Vollkorn:regular,bold" rel="stylesheet" type="text/css" >
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    {% endif %}
     
     {% if config.DEBUG -%}
     <!-- debug mode less/js combo -->

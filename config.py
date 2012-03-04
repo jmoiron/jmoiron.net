@@ -12,6 +12,7 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    OFFLINE_MODE = True
 
 class ProductionConfig(Config):
     pass

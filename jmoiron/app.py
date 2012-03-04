@@ -101,6 +101,7 @@ def pretty_datetime(dt):
 def argot_filter(string):
     return argot.render(str(string))
 
+
 if __name__ != "__main__":
     db = current()[dbname]
 
